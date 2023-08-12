@@ -81,7 +81,7 @@ void execute(char *path, char **arg)
 /**
  * _execve - Execute a command using execve
  * @line: Path to the command
- * @argv: Argument vector containing the command
+ * @src->p_name: Argument vector containing the command
  *
  * This function attempts to execute the specified command
  * using the execve system call.
@@ -89,33 +89,32 @@ void execute(char *path, char **arg)
  * that the command was not found.
  * It then exits with a status of -1.
  */
-void _execve(char *line, char **argv)
+void _execve(t_container *src)
 {
 	int ps_id;
-	char **arg;
 	char *path, *cmd_path;
 
-	if (_strlen(line) > 1)
-		line[_strlen(line) - 1] = 0;
-	arg = strtow(line, ' ');
-	path = malloc(_strlen(arg[0]) + 1);
-	_strcpy(path, arg[0]);
-	cmd_extracter(arg[0]);
+	if (_strlen(src->line) > 1)
+		src->line[_strlen(src->line) - 1] = 0;
+	src->arg = strtow(src->line, ' ');
+	path = malloc(_strlen(src->arg[0]) + 1);
+	_strcpy(path, src->arg[0]);
+	cmd_extracter(src->arg[0]);
 
-	if ((cmd_path = check_PATH(arg[0])))
+	if ((cmd_path = check_PATH(src->arg[0])))
 	{
 		ps_id = fork();
 		if (!ps_id)
-			execute(cmd_path, arg);
+			execute(cmd_path, src->arg);
 	}
-	else if (!builtin(line, arg))
+	else if (!builtin(src))
 	{
-		write(1, argv[0], _strlen(argv[0]));
+		write(1, src->p_name, _strlen(src->p_name));
 		write(1, ": No such file or directory\n", 28);
 	}
 	if (ps_id)
 		waitpid(ps_id, NULL, 0);
 	free(cmd_path);
-	_free(arg, path, -1);
+	_free(src->arg, path, -1);
 	setenv("a", "hello", 0);
 }

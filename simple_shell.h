@@ -13,6 +13,14 @@
 
 extern char **environ;
 
+typedef struct container{
+	char	*p_name;
+	char	*line;
+	int		cd;
+	char	buffer[2];
+	char	**arg;
+} t_container;
+
 # define TRUE 1
 
 # ifndef BUFFER_SIZE
@@ -24,13 +32,13 @@ char	*_getline_utils(int fd, char *container);
 char	*_strjoin(char *s1, char *s2);
 int		_check_new_line(char *buffer);
 
-void    _execve(char *line, char **argv);
+void    _execve(t_container *src);
 size_t	_strlen(char *s);
 char **strtow(char *str, char c);
 void _free(char **d_pointer, char *pointer, int flag);
 char *_strcpy(char *dest, char *src);
 int	_strncmp(const char *s1, const char *s2, size_t n);
 int _atoi(char *s);
-int builtin(char *line, char **arg);
+int builtin(t_container *src);
 
 #endif/*SIMPLE_SHELL*/

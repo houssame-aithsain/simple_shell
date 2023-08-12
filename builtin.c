@@ -1,59 +1,58 @@
 #include "simple_shell.h"
 
-int builtin(char *line, char **arg)
+int builtin(t_container *src)
 {
-    static char buffer[1024];
-
-    if (!strncmp(line, arg[0], 4))
-        if (!strncmp(line, "exit", 4))
+    if (!strncmp(src->line, src->arg[0], 4))
+        if (!strncmp(src->line, "exit", 4))
         {
-            if (arg[1])
-                exit(_atoi(arg[1]));
+            if (src->arg[1])
+                exit(_atoi(src->arg[1]));
             else
                 exit(0);
         }
-    if (!strncmp(line, arg[0], 6))
-        if (!strncmp(line, "setenv", 6))
+    if (!strncmp(src->line, src->arg[0], 6))
+        if (!strncmp(src->line, "setenv", 6))
         {
-            if (arg[1] && arg[2])
-                if (setenv(arg[1], arg[2], 1) == -1)
+            if (src->arg[1] && src->arg[2])
+                if (setenv(src->arg[1], src->arg[2], 1) == -1)
                 {
                     errno = ENOMEM;
                     perror("setenv");
                 }
             return (1);
         }
-    if (!strncmp(line, arg[0], 8))
-        if (!strncmp(line, "unsetenv", 8))
+    if (!strncmp(src->line, src->arg[0], 8))
+        if (!strncmp(src->line, "unsetenv", 8))
         {
-            if (arg[1])
-                if (unsetenv(arg[1]) == -1)
+            if (src->arg[1])
+                if (unsetenv(src->arg[1]) == -1)
                 {
                     errno = EINVAL;
                     perror("unsetenv");
                 }
             return (2);
         }
-    if (!strncmp(line, arg[0], 2))
-        if (!strncmp(line, "cd", 2))
+        /*
+    if (!strncmp(src->line, src->arg[0], 2))
+        if (!strncmp(src->line, "cd", 2))
         {
-            printf("buffer=[%s]\n", buffer);
-            if (arg[1])
+            printf("buffer=[%s]\n", src->buffer);
+            if (src->arg[1])
             {
-                if (!_strncmp(arg[1], "-", 1))
+                if (!_strncmp(src->arg[1], "-", 1))
                 {
-                    if (chdir(buffer))
+                    if (chdir(src->buffer))
                         perror("chdir");
+                    src->cd = 1;
                 }
                 else 
                 {
-                    if (chdir(arg[1]))
+                    if (chdir(src->arg[1]))
                         perror("chdir");
+                    src->cd = 1;
                 }
             }
-            if (!getcwd(buffer, sizeof(buffer)))
-                    perror("getcwd");
             return (2);
-        }
+        }*/
     return (0);
 }

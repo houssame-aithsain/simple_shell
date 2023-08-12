@@ -15,17 +15,16 @@
  */
 int main(int argc, char **argv)
 {
-	char *line;
+	t_container src = {argv[0], NULL, 1, 0, 0};
 
 	(void)argc;
-	line = NULL;
 	while (TRUE)
 	{
 		write(1, "simple_shell$> ", 15);
-		line = _getline(STDIN_FILENO);
-		if (!line)
+		src.line = _getline(STDIN_FILENO);
+		if (!src.line)
 			exit(0);
-		_execve(line, argv);
-		free(line);
+		_execve(&src);
+		free(src.line);
 	}
 }
