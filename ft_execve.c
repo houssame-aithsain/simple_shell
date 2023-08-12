@@ -32,8 +32,8 @@ char *fix_path(char *path)
 
 char *check_PATH(char *cmd)
 {
-	char *path, *token, *cmd_path;
-	int i = 0;
+	char *path, **token, *cmd_path;
+	int i = 0, c = -1;
 
 	path = NULL;
 	for (; environ[i]; i++)
@@ -41,20 +41,21 @@ char *check_PATH(char *cmd)
 		if (!_strncmp("PATH", environ[i], 4))
 			path = environ[i];
 	}
+	if (!path)
+		return NULL;
 	path = fix_path(path);
-	token = strtok(path, ":");
-    while (token != NULL)
+	token = strtow(path, ':');
+    while (token[++c])
 	{
-		cmd_path = get_join_path_cmd(token, cmd);
+		cmd_path = get_join_path_cmd(token[c], cmd);
         if (!access(cmd_path, F_OK))
 		{
-			free(path);
+			_free(token, path, -1);
 			return cmd_path;
 		}
 		free(cmd_path);
-        token = strtok(NULL, ":");
     }
-	free(path);
+	_free(token, path, -1);
 	return (NULL);
 }
 
@@ -67,18 +68,18 @@ void cmd_extracter(char *cmd)
 		i++;
 	if (i)
 		_strcpy(cmd, cmd_ex[i - 1]);
-	ft_free(cmd_ex, NULL, 1);
+	_free(cmd_ex, NULL, 1);
 }
 
-void execute(char *path, char **argv, char **arg)
+void execute(char *path, char **arg)
 {
 	execve(path, arg, environ);
-	ft_free(arg, path, -1);
+	_free(arg, path, -1);
 	exit(-1);
 }
 
 /**
- * ft_execve - Execute a command using execve
+ * _execve - Execute a command using execve
  * @line: Path to the command
  * @argv: Argument vector containing the command
  *
@@ -88,7 +89,7 @@ void execute(char *path, char **argv, char **arg)
  * that the command was not found.
  * It then exits with a status of -1.
  */
-void ft_execve(char *line, char **argv)
+void _execve(char *line, char **argv)
 {
 	int ps_id;
 	char **arg;
@@ -105,9 +106,9 @@ void ft_execve(char *line, char **argv)
 	{
 		ps_id = fork();
 		if (!ps_id)
-			execute(cmd_path, argv, arg);
+			execute(cmd_path, arg);
 	}
-	else
+	else if (!builtin(line, arg))
 	{
 		write(1, argv[0], _strlen(argv[0]));
 		write(1, ": No such file or directory\n", 28);
@@ -115,5 +116,6 @@ void ft_execve(char *line, char **argv)
 	if (ps_id)
 		waitpid(ps_id, NULL, 0);
 	free(cmd_path);
-	ft_free(arg, path, -1);
+	_free(arg, path, -1);
+	setenv("a", "hello", 0);
 }

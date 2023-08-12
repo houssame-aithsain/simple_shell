@@ -1,6 +1,39 @@
 #include "simple_shell.h"
 
 /**
+ * _atoi - Converts a string to an integer
+ * @s: The string to convert
+ *
+ * Return: The converted integer
+ */
+int _atoi(char *s)
+{
+	int sign = 1;
+	unsigned int result = 0;
+	int started = 0;
+
+	while (*s)
+	{
+		if (*s == '-')
+			sign *= -1;
+
+		if (*s >= '0' && *s <= '9')
+		{
+			result = result * 10 + (*s - '0');
+			started = 1;
+		}
+		else if (started)
+		{
+			break;
+		}
+
+		s++;
+	}
+
+	return (result * sign);
+}
+
+/**
  * _strcmp - Compares two strings
  * @s1: Pointer to the first string
  * @s2: Pointer to the second string
@@ -51,7 +84,7 @@ char *_strcpy(char *dest, char *src)
 	return (dest);
 }
 
-void ft_free(char **d_pointer, char *pointer, int flag)
+void _free(char **d_pointer, char *pointer, int flag)
 {
     int i = 0;
 
@@ -82,7 +115,7 @@ void ft_free(char **d_pointer, char *pointer, int flag)
  *
  * Return: The length of the string.
  */
-int _strlen(char *s)
+size_t _strlen(char *s)
 {
 	int i;
 
@@ -93,14 +126,14 @@ int _strlen(char *s)
 }
 
 /**
- * ft_countit - Counts the number of substrings in a string based
+ * _countit - Counts the number of substrings in a string based
  * on a delimiter character.
  * @s: The input string.
  * @c: The delimiter character.
  * @flag: switch the function ps.
  * Return: The number of substrings in the string.
  */
-int ft_countit(char *s, char c, int flag)
+int _countit(char *s, char c, int flag)
 {
 	int i;
 	int j;
@@ -124,14 +157,14 @@ int ft_countit(char *s, char c, int flag)
 }
 
 /**
- * ft_substr - Extracts a substring from a given string.
+ * _substr - Extracts a substring from a given string.
  * @s: The input string.
  * @start: The starting index of the substring.
  * @len: The length of the substring.
  *
  * Return: The extracted substring.
  */
-char *ft_substr(char *s, int start, int len)
+char *_substr(char *s, int start, size_t len)
 {
 	char *arr;
 	int i;
@@ -169,7 +202,7 @@ char **strtow(char *str, char c)
 {
 	char **arr;
 	int i = 0;
-	int j = ft_countit(str, c, 0);
+	int j = _countit(str, c, 0);
 	int len;
 
 	if (!_strlen(str) || !j)
@@ -181,8 +214,8 @@ char **strtow(char *str, char c)
 	{
 		if (*str != c)
 		{
-			len = ft_countit(str, c, 1);
-			arr[i] = ft_substr(str, 0, len);
+			len = _countit(str, c, 1);
+			arr[i] = _substr(str, 0, len);
 			str += len;
 			i++;
 		}
