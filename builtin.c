@@ -32,27 +32,29 @@ int builtin(t_container *src)
                 }
             return (2);
         }
-        /*
     if (!strncmp(src->line, src->arg[0], 2))
         if (!strncmp(src->line, "cd", 2))
         {
-            printf("buffer=[%s]\n", src->buffer);
             if (src->arg[1])
             {
                 if (!_strncmp(src->arg[1], "-", 1))
                 {
-                    if (chdir(src->buffer))
+                    if (chdir(src->last_p))
                         perror("chdir");
-                    src->cd = 1;
+                    _strcpy(src->last_p, src->current_p);
+                    if (!getcwd(src->current_p, sizeof(src->current_p)))
+        	            perror("getcwd");
                 }
                 else 
                 {
                     if (chdir(src->arg[1]))
                         perror("chdir");
-                    src->cd = 1;
+                    _strcpy(src->last_p, src->current_p);
+                    if (!getcwd(src->current_p, sizeof(src->current_p)))
+        	            perror("getcwd");
                 }
             }
             return (2);
-        }*/
+        }
     return (0);
 }

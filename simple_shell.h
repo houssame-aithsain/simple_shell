@@ -17,7 +17,8 @@ typedef struct container{
 	char	*p_name;
 	char	*line;
 	int		cd;
-	char	buffer[2];
+	char	current_p[1024];
+	char	last_p[1024];
 	char	**arg;
 } t_container;
 
