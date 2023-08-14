@@ -13,7 +13,7 @@
  * the input buffer.
  * Return: .....
  */
-int main(int argc, char **argv, char **env)
+int main(int argc, char **argv)
 {
 	t_container src;
 	char *line;

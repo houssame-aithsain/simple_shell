@@ -31,7 +31,6 @@ int _unsetenv(t_container *src)
         {
             if (src->arg[1])
             {
-                //unsetenv(src->arg[1]);
                 if (unset_var(src))
                 {
                     errno = EINVAL;
@@ -50,7 +49,6 @@ int _setenv(char *name, char *value, t_container *src)
     {
         if (!_strcmp(src->path, "setenv"))
         {
-        //    setenv(src->arg[1], src->arg[2], 1);
           if (_var_check(name, value))
             {
                 errno = EINVAL;

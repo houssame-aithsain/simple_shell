@@ -73,7 +73,7 @@ int _create_new_var(char *name, char *value, t_container *src)
 
 void set_env(t_container *src)
 {
-	int i = -1, cp, len = 0;
+	int len = 0;
 
 	while (environ[len])
 		len++;
