@@ -43,10 +43,10 @@ char *check_PATH(t_container *src)
 			return (NULL);
 	}
 	path = NULL;
-	for (; environ[i]; i++)
+	for (; src->env[i]; i++)
 	{
-		if (!_strncmp("PATH", environ[i], 4))
-			path = environ[i];
+		if (!_strncmp("PATH", src->env[i], 4))
+			path = src->env[i];
 	}
 	if (!path)
 		return NULL;
