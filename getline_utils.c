@@ -3,10 +3,7 @@
 char	*_strjoin(char *s1, char *s2)
 {
 	char	*arr;
-	size_t	i;
-	size_t	j;
-	size_t	k;
-	size_t	m;
+	size_t	i, j, k, m;
 
 	k = -1;
 	m = 0;

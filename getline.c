@@ -3,10 +3,7 @@
 char	*get_after_new_line(char *container)
 {
 	char	*arr;
-	size_t	i;
-	size_t	j;
-	size_t	m;
-	size_t	f;
+	size_t	i, j, m, f;
 
 	m = 0;
 	i = 0;

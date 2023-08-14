@@ -13,16 +13,17 @@
  * the input buffer.
  * Return: .....
  */
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **env)
 {
-	t_container src = {argv[0], NULL, 1, 0, 0, 0};
-	char cmp[1024];
+	t_container src;
 
 	(void)argc;
-	if (!getcwd(src.last_p, sizeof(src.last_p)))
-        perror("getcwd");
+	src.p_name = argv[0];
+	src.line = NULL;
 	if (!getcwd(src.current_p, sizeof(src.current_p)))
         perror("getcwd");
+	_strcpy(src.last_p, src.current_p);
+	set_env(&src);
 	while (TRUE)
 	{
 		write(1, "simple_shell$> ", 15);

@@ -14,12 +14,15 @@
 extern char **environ;
 
 typedef struct container{
+	char	**arg;
+	char	**env;
 	char	*p_name;
 	char	*line;
-	int		cd;
+	char	*path;
+	char	*HOME;
+	char	*cmd_path;
 	char	current_p[1024];
 	char	last_p[1024];
-	char	**arg;
 } t_container;
 
 # define TRUE 1
@@ -41,5 +44,16 @@ char *_strcpy(char *dest, char *src);
 int	_strncmp(const char *s1, const char *s2, size_t n);
 int _atoi(char *s);
 int builtin(t_container *src);
+int _strcmp(char *s1, char *s2);
+char	*_strdup(char *str);
+char *get_HOME_dir(void);
+char *fix_path(char *path);
+int _env(t_container *src);
+int _setenv(char *name, char *value, t_container *src);
+int _unsetenv(t_container *src);
+int _create_new_var(char *name, char *value, t_container *src);
+int _var_check(char *name, char *value);
+void set_env(t_container *src);
+int unset_var(t_container *src);
 
 #endif/*SIMPLE_SHELL*/

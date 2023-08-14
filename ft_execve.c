@@ -30,11 +30,18 @@ char *fix_path(char *path)
 	return (f_path);
 }
 
-char *check_PATH(char *cmd)
+char *check_PATH(t_container *src)
 {
 	char *path, **token, *cmd_path;
 	int i = 0, c = -1;
 
+	if (_strcmp(src->path, src->arg[0]))
+	{
+		if (!access(src->path, F_OK))
+			return (_strdup(src->path));
+		else
+			return (NULL);
+	}
 	path = NULL;
 	for (; environ[i]; i++)
 	{
@@ -45,16 +52,16 @@ char *check_PATH(char *cmd)
 		return NULL;
 	path = fix_path(path);
 	token = strtow(path, ':');
-    while (token[++c])
+	while (token[++c])
 	{
-		cmd_path = get_join_path_cmd(token[c], cmd);
-        if (!access(cmd_path, F_OK))
+		cmd_path = get_join_path_cmd(token[c], src->arg[0]);
+		if (!access(cmd_path, F_OK))
 		{
 			_free(token, path, -1);
 			return cmd_path;
 		}
 		free(cmd_path);
-    }
+	}
 	_free(token, path, -1);
 	return (NULL);
 }
@@ -71,10 +78,10 @@ void cmd_extracter(char *cmd)
 	_free(cmd_ex, NULL, 1);
 }
 
-void execute(char *path, char **arg)
+void _execute(t_container *src)
 {
-	execve(path, arg, environ);
-	_free(arg, path, -1);
+	execve(src->cmd_path, src->arg, src->env);
+	_free(src->arg, src->path, -1);
 	exit(-1);
 }
 
@@ -92,29 +99,30 @@ void execute(char *path, char **arg)
 void _execve(t_container *src)
 {
 	int ps_id;
-	char *path, *cmd_path;
 
 	if (_strlen(src->line) > 1)
 		src->line[_strlen(src->line) - 1] = 0;
+	else
+		return;
 	src->arg = strtow(src->line, ' ');
-	path = malloc(_strlen(src->arg[0]) + 1);
-	_strcpy(path, src->arg[0]);
+	src->path = malloc(_strlen(src->arg[0]) + 1);
+	_strcpy(src->path, src->arg[0]);
 	cmd_extracter(src->arg[0]);
 
-	if ((cmd_path = check_PATH(src->arg[0])))
+	if ((src->cmd_path = check_PATH(src)) && _strcmp("env", src->arg[0])
+		&& _strcmp("/bin/env", src->path))
 	{
 		ps_id = fork();
 		if (!ps_id)
-			execute(cmd_path, src->arg);
+			_execute(src);
 	}
 	else if (!builtin(src))
 	{
 		write(1, src->p_name, _strlen(src->p_name));
-		write(1, ": No such file or directory\n", 28);
+		write(2, ": No such file or directory\n", 28);
 	}
 	if (ps_id)
 		waitpid(ps_id, NULL, 0);
-	free(cmd_path);
-	_free(src->arg, path, -1);
-	setenv("a", "hello", 0);
+	free(src->cmd_path);
+	_free(src->arg, src->path, -1);
 }
