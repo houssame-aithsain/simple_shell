@@ -23,6 +23,7 @@ typedef struct container{
 	char	*cmd_path;
 	char	current_p[1024];
 	char	last_p[1024];
+	struct container *next;
 } t_container;
 
 # define TRUE 1
@@ -36,6 +37,7 @@ char	*_getline_utils(int fd, char *container);
 char	*_strjoin(char *s1, char *s2);
 int		_check_new_line(char *buffer);
 
+void split_cmd_line(char *line, t_container *src);
 void    _execve(t_container *src);
 size_t	_strlen(char *s);
 char **strtow(char *str, char c);

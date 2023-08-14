@@ -16,21 +16,21 @@
 int main(int argc, char **argv, char **env)
 {
 	t_container src;
-
+	char *line;
 	(void)argc;
+
 	src.p_name = argv[0];
-	src.line = NULL;
 	if (!getcwd(src.current_p, sizeof(src.current_p)))
-        perror("getcwd");
+		perror("getcwd");
 	_strcpy(src.last_p, src.current_p);
 	set_env(&src);
 	while (TRUE)
 	{
 		write(1, "simple_shell$> ", 15);
-		src.line = _getline(STDIN_FILENO);
-		if (!src.line)
+		line = _getline(STDIN_FILENO);
+		if (!line)
 			exit(0);
-		_execve(&src);
-		free(src.line);
+		split_cmd_line(line, &src);
+		free(line);
 	}
 }

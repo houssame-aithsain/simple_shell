@@ -98,11 +98,17 @@ void _execute(t_container *src)
  */
 void _execve(t_container *src)
 {
-	int ps_id;
+	int ps_id, i = -1;
 
-	if (_strlen(src->line) > 1)
-		src->line[_strlen(src->line) - 1] = 0;
-	else
+	while (src->line[++i])
+	{
+		if (src->line[i] == '\n')
+			src->line[i] = 0;
+	}
+	i = 0;
+	while (src->line[i] == 32)
+		i++;
+	if (!src->line[i])
 		return;
 	src->arg = strtow(src->line, ' ');
 	src->path = malloc(_strlen(src->arg[0]) + 1);
