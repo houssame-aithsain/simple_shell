@@ -3,28 +3,28 @@
 char	*_strjoin(char *s1, char *s2)
 {
 	char	*arr;
-	size_t	i, j, k, m;
+	size_t	s1_len, s2_len, i, cp;
 
-	k = -1;
-	m = 0;
-	i = _strlen(s1);
-	j = _strlen(s2);
-	if (i + j == 0)
+	i = -1;
+	cp = 0;
+	s1_len = _strlen(s1);
+	s2_len = _strlen(s2);
+	if (s1_len + s2_len == 0)
 	{
 		free(s1);
 		return (0);
 	}
-	arr = malloc(i + j + 1);
-	while (++k < i)
-		arr[k] = s1[k];
-	while (k < (i + j))
-		arr[k++] = s2[m++];
-	arr[k] = 0;
+	arr = malloc(s1_len + s2_len + 1);
+	while (++i < s1_len)
+		arr[i] = s1[i];
+	while (i < (s1_len + s2_len))
+		arr[i++] = s2[cp++];
+	arr[i] = 0;
 	free(s1);
 	return (arr);
 }
 
-int	_check_new_line(char *buffer)
+int	_if_new_line(char *buffer)
 {
 	size_t	i;
 

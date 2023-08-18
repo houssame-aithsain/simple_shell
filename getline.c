@@ -3,11 +3,11 @@
 char	*get_after_new_line(char *container)
 {
 	char	*arr;
-	size_t	i, j, m, f;
+	size_t	i, c_len, buf_len, cp;
 
-	m = 0;
+	buf_len = 0;
 	i = 0;
-	j = _strlen(container);
+	c_len = _strlen(container);
 	while (container && container[i] && container[i] != '\n')
 		i++;
 	if (!container || !container[i] || (container[i] == '\n'
@@ -17,11 +17,11 @@ char	*get_after_new_line(char *container)
 		return (NULL);
 	}
 	i++;
-	f = i;
-	arr = malloc((j - i) + 1);
-	while (m < j - i)
-		arr[m++] = container[f++];
-	arr[m] = 0;
+	cp = i;
+	arr = malloc((c_len - i) + 1);
+	while (buf_len < c_len - i)
+		arr[buf_len++] = container[cp++];
+	arr[buf_len] = 0;
 	free(container);
 	return (arr);
 }
@@ -29,13 +29,13 @@ char	*get_after_new_line(char *container)
 char	*get_befor_new_line(char *container)
 {
 	char	*arr;
+	size_t	len;
 	size_t	i;
-	size_t	j;
 
 	if (!container)
 		return (NULL);
 	i = 0;
-	j = 0;
+	len = 0;
 	while (container[i] && container[i] != '\n')
 		i++;
 	if (container[i] == '\n')
@@ -43,12 +43,12 @@ char	*get_befor_new_line(char *container)
 	arr = malloc(i + 1);
 	if (!arr)
 		return (NULL);
-	while (j < i)
+	while (len < i)
 	{
-		arr[j] = container[j];
-		j++;
+		arr[len] = container[len];
+		len++;
 	}
-	arr[j] = 0;
+	arr[len] = 0;
 	return (arr);
 }
 
@@ -72,7 +72,7 @@ char	*get_line_copy(int fd, char *container)
 		}
 		buffer[size] = 0;
 		container = _strjoin(container, buffer);
-		if (!_check_new_line(buffer))
+		if (!_if_new_line(buffer))
 			break ;
 	}
 	free(buffer);

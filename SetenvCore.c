@@ -1,6 +1,20 @@
 #include "simple_shell.h"
 
-int if_var_exist(char *name, char *value, t_container *src)
+int _var_check(char *name, char *value)
+{
+	int i = 0;
+
+	if (!name || !value)
+		return (0);
+	for (; name[i]; i++)
+	{
+		if (name[i] == '=')
+			return (-2);
+	}
+	return (0);
+}
+
+int __is_exist(char *name, char *value, t_container *src)
 {
 	int p = 0, cp, i;
 	char *tmp;
@@ -25,26 +39,14 @@ int if_var_exist(char *name, char *value, t_container *src)
 	return (0);
 }
 
-int _var_check(char *name, char *value)
-{
-	int i = 0;
-
-	if (!name || !value)
-		return (-3);
-	for (; name[i]; i++)
-	{
-		if (name[i] == '=')
-			return (-2);
-	}
-	return (0);
-}
-
 int _create_new_var(char *name, char *value, t_container *src)
 {
 	int i = -1, cp, len = 0;
 	char **env;
 
-	if (!if_var_exist(name, value, src))
+	if (!name || !value)
+		return (0);
+	if (!__is_exist(name, value, src))
 		return (0);
 	while (src->env[len])
 		len++;
@@ -73,12 +75,9 @@ int _create_new_var(char *name, char *value, t_container *src)
 
 void set_env(t_container *src)
 {
-	int len = 0;
+	int len = -1;
 
-	while (environ[len])
-		len++;
-	src->env = malloc(sizeof(char *) * (len + 2));
-	len = -1;
+	src->env = malloc(sizeof(char *) * (TwoDPointerCounter(environ) + 2));
 	while (environ[++len])
 	{
 		src->env[len] = malloc(_strlen(environ[len]) + 1);

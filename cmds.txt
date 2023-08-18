@@ -1,0 +1,70 @@
+/bin/ls
+/bin/pwd
+/bin/ls -l
+/bin/echo Hello, world!
+/bin/cat /etc/passwd
+cd /
+pwd
+/bin/ls /var
+/bin/ls /var/nonexistent
+/bin/ls /bin | /bin/grep "sh"
+/bin/ls -l /usr | /bin/grep "bin"
+/bin/ls /usr && /bin/echo "ls succeeded"
+/bin/nonexistent || /bin/echo "nonexistent failed"
+echo $$
+echo $?
+/bin/ls # This is a comment
+alias hello='/bin/echo Hello!'
+hello
+echo Testing variable expansion: $HOME
+echo Testing variable expansion: $USER
+alias showdate='/bin/date'
+showdate
+alias hi='echo Hi there!'
+hi
+alias smile='echo :)'
+smile
+alias exitmsg='echo Goodbye!'
+exitmsg
+alias nonexist='/bin/nonexistent'
+nonexist
+alias cdalias='/bin/cd /'
+cdalias
+/bin/ls
+alias setexit='/bin/exit 42'
+setexit
+/bin/ls
+echo Testing comments # This is a comment
+/bin/echo This is not a comment # This is part of the command
+/bin/ls ; /bin/pwd
+/bin/ls -l && /bin/echo "ls succeeded"
+/bin/ls /bin/nonexistent || /bin/echo "nonexistent failed"
+/bin/ls /var && /bin/echo "ls succeeded" ; /bin/pwd
+/bin/nonexistent || /bin/echo "nonexistent failed" && /bin/ls -l
+/bin/nonexistent && /bin/echo "nonexistent failed" ; /bin/ls -l /usr
+echo $HOME ; echo $USER
+alias showdate='/bin/date' ; showdate
+alias hi='echo Hi there!' ; hi
+/bin/ls /bin ; /bin/echo "ls done"
+/bin/ls ; /bin/pwd || /bin/echo "pwd failed"
+/bin/ls /var && /bin/ls /usr ; /bin/ls /bin || /bin/echo "ls failed"
+/bin/ls /usr && /bin/ls /usr/bin || /bin/echo "ls failed"
+/bin/nonexistent || /bin/echo "nonexistent failed" ; /bin/ls -l /usr
+/bin/echo $HOME ; /bin/echo $USER
+alias showdate='/bin/date' ; /bin/echo "showdate done"
+alias hi='echo Hi there!' ; /bin/echo "hi done"
+/bin/ls /bin ; /bin/echo "ls done"
+alias setexit='/bin/exit 42' ; /bin/echo "setexit done"
+/bin/ls /var ; /bin/echo "ls done"
+/bin/nonexistent ; /bin/echo "nonexistent done"
+/bin/ls /usr/bin ; /bin/echo "ls done"
+alias showdate='/bin/date' ; /bin/echo "showdate done"
+alias hi='echo Hi there!' ; /bin/echo "hi done"
+alias setexit='/bin/exit 42' ; /bin/echo "setexit done"
+/bin/ls ; /bin/pwd || /bin/echo "pwd failed"
+/bin/ls /var && /bin/ls /usr ; /bin/ls /bin || /bin/echo "ls failed"
+/bin/ls /usr && /bin/ls /usr/bin || /bin/echo "ls failed"
+/bin/nonexistent || /bin/echo "nonexistent failed" ; /bin/ls -l /usr
+
+echo $?$?$?$?$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ $?$?$?$?$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ $?$?$?$?$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ $?$?$?$?$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ $?$?$?$?$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
+echo $$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$$$PATH$$$PATH$ $PATH$$$PATH $$PATH$$$PATH$$ PATH$$$PATH$$PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$ PATH$$$PATH$$

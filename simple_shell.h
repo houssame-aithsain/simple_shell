@@ -10,10 +10,28 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include <fcntl.h>
+
+# define TRUE 1
+# define AND_CMDS 12
+# define OR_CMDS 13
+# define NAME 74
+# define VALUE 75
+
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 30
+# endif
 
 extern char **environ;
 
+typedef struct alias{
+	char **name;
+	char **value;
+} t_alias;
+
 typedef struct container{
+	char	**mc_arg;
 	char	**arg;
 	char	**env;
 	char	*p_name;
@@ -23,39 +41,74 @@ typedef struct container{
 	char	*cmd_path;
 	char	current_p[1024];
 	char	last_p[1024];
-	struct container *next;
+	int		exit_status;
+	int		cmd_counter;
+	int		op;
+	t_alias	alias;
 } t_container;
 
-# define TRUE 1
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 20
-# endif
-
+/*-------------Main-Utils---------------*/
+void __var_init(t_container *src, int argc, char **argv);
+void __main_free(t_container *src);
+int __fd_status(char *filename);
+void __new_line_sanitizer(char *str);
+void __filename_input(t_container *src, char *line);
+/*-------------SortCmdTypeUtils---------*/
+int __ifEmptyLine(char *line);
+int	__CmdOrBuiltin(t_container *src);
+void cmd_extracter(char *cmd);
+char *check_PATH(t_container *src);
+int __is_cmd_builtin(t_container *src, int flag);
+/*-------------AliasCoreUtils-----------*/
+int __is_alias_of_x(char *var);
+void __IfAliasIsEmpty(char *str, t_container *src);
+void __create_new_alias_name(char *str, t_container *src);
+char *get_name_or_value(char *str, int flag);
+void __new_alias_table(t_container *src, char **name, char **value);
+int TwoDPointerCounter(char **arr);
+/*-------------AliasBuiltin-----------*/
+void create_new_alias(char *str, t_container *src);
+int PrintAliasName(t_container *src, int flag, int i);
+void _alias_error(t_container *src, int len, int i);
+/*-------------getline---------------*/
 char	*_getline(int fd);
-char	*_getline_utils(int fd, char *container);
 char	*_strjoin(char *s1, char *s2);
-int		_check_new_line(char *buffer);
+int		_if_new_line(char *buffer);
+/*-------------End-getline-----------*/
+void	ReplaceVarbyItsValue(t_container *src);
 
-void split_cmd_line(char *line, t_container *src);
-void    _execve(t_container *src);
+void	split_cmd_line(char *line, t_container *src);
+int		SortCmdType(char *line, t_container *src);
 size_t	_strlen(char *s);
-char **strtow(char *str, char c);
-void _free(char **d_pointer, char *pointer, int flag);
-char *_strcpy(char *dest, char *src);
-int	_strncmp(const char *s1, const char *s2, size_t n);
-int _atoi(char *s);
-int builtin(t_container *src);
-int _strcmp(char *s1, char *s2);
+char	**strtow(char *str, char c);
+void	_free(char **d_pointer, char *pointer, int flag);
+char	*_strcpy(char *dest, char *src);
+int		_strncmp(const char *s1, const char *s2, size_t n);
+int		_atoi(char *s);
+int		builtins(t_container *src);
+int		_strcmp(char *s1, char *s2);
 char	*_strdup(char *str);
-char *get_HOME_dir(void);
-char *fix_path(char *path);
-int _env(t_container *src);
-int _setenv(char *name, char *value, t_container *src);
-int _unsetenv(t_container *src);
-int _create_new_var(char *name, char *value, t_container *src);
-int _var_check(char *name, char *value);
-void set_env(t_container *src);
-int unset_var(t_container *src);
+char	*get_HOME_dir(void);
+int		_env(t_container *src);
+int		_setenv(t_container *src);
+int		_unsetenv(t_container *src);
+int		_create_new_var(char *name, char *value, t_container *src);
+int		_var_check(char *name, char *value);
+void	set_env(t_container *src);
+int		unset_var(t_container *src);
+int		_alias(t_container *src);
+void	get_create_alias_name(char *str, t_container *src);
+char	**get_join_alias_args(char **arg);
+char	*_substr(char *s, int start, size_t len);
+char	*__strjoin(char *s1, char *s2);
+int		if_s_quote(char *arg);
+int		__is_alias_of_x(char *var);
+int		is_alias(t_container *src);
+void	_putnbr(int number);
+/*-------------print-errors----------*/
+void    _cd_error(t_container *src);
+void	_cmd_not_found(t_container *src);
+void _execute(t_container *src);
+char	*ft_itoa(int n);
 
 #endif/*SIMPLE_SHELL*/
