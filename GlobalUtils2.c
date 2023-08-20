@@ -1,10 +1,31 @@
 #include "simple_shell.h"
 
+/**
+ * _strlen - Calculates the length of a string.
+ * @s: Pointer to the string.
+ *
+ * Description: This function calculates the length of a string by
+ *              iterating through the characters until it reaches
+ *              the null terminator ('\0').
+ *
+ * Return: The length of the string.
+ */
+size_t _strlen(char *s)
+{
+	int i;
+
+	i = 0;
+	while (s && s[i])
+		i++;
+	return (i);
+}
+
 char *get_HOME_dir(void)
 {
 	char *path;
 	int i = 0;
 
+	path = NULL;
 	for (; environ[i]; i++)
 	{
 		if (!_strncmp("HOME", environ[i], 4))
@@ -61,4 +82,21 @@ char	*__strjoin(char *s1, char *s2)
 	arr[i] = 0;
 	free(s1);
 	return (arr);
+}
+
+int GetVarLent_str(char *str)
+{
+	int i = 0;
+
+	while (str && str[i] && str[i] != '$')
+		i++;
+	return (i);
+}
+int GetVarLent(char *str)
+{
+	int i = 0;
+
+	while (str && str[i] && str[i] != '$' && str[i] != '=' )
+		i++;
+	return (i);
 }

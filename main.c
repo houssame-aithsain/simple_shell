@@ -1,28 +1,30 @@
 #include "simple_shell.h"
 
-void __filename_input(t_container *src, char *line)
+void __filename_input(t_container *src, char *str)
 {
 	int fd = -1;
 	char **tmp;
 
-	tmp = strtow(line, ' ');
+	tmp = strtow(str, ' ');
 	__new_line_sanitizer(tmp[0]);
 	if (_strcmp(tmp[0], ".") && _strcmp(tmp[0], "..") && __fd_status(tmp[0]))
 		fd = open(tmp[0], O_RDONLY);
 	if (fd > 0)
 	{
-		free(line);
-		line = NULL;
 		_free(tmp, NULL, 1);
-		line = _getline(fd);
-		while (line)
+		__main_free(src, FD);
+		src->arg = NULL;
+		src->fdLine = NULL;
+		while ((src->fdLine = _getline(fd)))
 		{
-			split_cmd_line(line, src);
-			free(line);
-			line = _getline(fd);
+			src->is_fd = 1;
+			split_cmd_line(src->fdLine, src);
+			free(src->fdLine);
 		}
 		close(fd);
-		__main_free(src);
+		_free(src->alias.name, NULL, 1);
+		_free(src->alias.value, NULL, 1);
+		_free(src->env, NULL, 1);
 		exit(0);
 	}
 	_free(tmp, NULL, 1);
@@ -44,23 +46,20 @@ void __filename_input(t_container *src, char *line)
 int main(int argc, char **argv)
 {
 	t_container src;
-	char *line;
 
 	__var_init(&src, argc, argv);
-	set_env(&src);
 	while (TRUE)
 	{
+		src.mainLine = NULL;
+		src.arg = NULL;
 		write(1, "simple_shell$> ", 15);
-		line = _getline(STDIN_FILENO);
-		if (!line)
+		src.mainLine = _getline(STDIN_FILENO);
+		if (!src.mainLine)
 		{
-			__main_free(&src);
+			__main_free(&src, MAIN);
 			exit(0);
 		}
-		/* read from fd */
-		__filename_input(&src, line);
-		/* end fd */
-		split_cmd_line(line, &src);
-		free(line);
+		split_cmd_line(src.mainLine, &src);
+		free(src.mainLine);
 	}
 }

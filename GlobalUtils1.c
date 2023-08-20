@@ -51,26 +51,6 @@ char	*ft_itoa(int n)
 }
 
 /**
- * _strlen - Calculates the length of a string.
- * @s: Pointer to the string.
- *
- * Description: This function calculates the length of a string by
- *              iterating through the characters until it reaches
- *              the null terminator ('\0').
- *
- * Return: The length of the string.
- */
-size_t _strlen(char *s)
-{
-	int i;
-
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
-}
-
-/**
  * _substr - Extracts a substring from a given string.
  * @s: The input string.
  * @start: The starting index of the substring.

@@ -20,7 +20,10 @@ int	__CmdOrBuiltin(t_container *src)
 		src->exit_status = (((ex) & 0xff00) >> 8);
 	}
 	else if (!builtins(src))
-		_cmd_not_found(src);
+	{
+		__filename_input(src, src->arg[0]);
+		_cmd_not_found(src, 0);
+	}
 	if (!__is_cmd_builtin(src, 1))
 	{
 		free(src->cmd_path);
@@ -45,14 +48,25 @@ int	__CmdOrBuiltin(t_container *src)
  */
 int SortCmdType(char *line, t_container *src)
 {
+	src->is_empty = 0;
 	__new_line_sanitizer(line);
 	if (__ifEmptyLine(line))
 		return (0);
 	src->arg = strtow(line, ' ');
-	ReplaceVarbyItsValue(src);
+	_expand(src);
+	if (!is_path(src))
+	{
+		_free(src->arg, NULL, 1);
+		return (0);
+	}
+	if (src->is_empty)
+	{
+		src->exit_status = 0;
+		_free(src->arg, NULL, 1);
+		return (0);
+	}
 	src->arg = get_join_alias_args(src->arg);
-	src->path = malloc(_strlen(src->arg[0]) + 1);
-	_strcpy(src->path, src->arg[0]);
+	src->path = _strdup(src->arg[0]);
 	cmd_extracter(src->arg[0]);
 	is_alias(src);
 	if (__CmdOrBuiltin(src))

@@ -9,8 +9,8 @@
 int _atoi(char *s)
 {
 	int sign = 1;
-	unsigned int result = 0;
 	int started = 0;
+	unsigned int result = 0;
 
 	while (*s)
 	{
@@ -111,16 +111,22 @@ void _free(char **d_pointer, char *pointer, int flag)
     {
         while (d_pointer && d_pointer[i])
             free(d_pointer[i++]);
-        free(d_pointer);
+	    if (d_pointer)
+        	free(d_pointer);
     }
     else if (flag == -1)
     {
-        free(pointer);
+		if (pointer)
+        	free(pointer);
         while (d_pointer && d_pointer[i])
             free(d_pointer[i++]);
-        free(d_pointer);
+		if (d_pointer)
+        	free(d_pointer);
     }
     else
-        free(pointer);
+    {
+		if (pointer)
+			free(pointer);
+	}
 }
 

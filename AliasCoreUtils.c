@@ -1,6 +1,6 @@
 #include "simple_shell.h"
 
-int TwoDPointerCounter(char **arr)
+int TDPCounter(char **arr)
 {
 	int i = 0;
 

@@ -12,7 +12,7 @@ char *get_name_or_value(char *str, int flag)
 		{
 			if (str[i] == '=')
 				break;
-			if (str[i] != '\'')
+			if (str[i] != '\'' && str[i] != 5)
 				buffer[i] = str[i];
 		}
 		buffer[i] = 0;
@@ -22,11 +22,15 @@ char *get_name_or_value(char *str, int flag)
 		i = 0;
 		while (str && str[len] != '=')
 			len++;
-		len++;
-		for (; str && str[len]; len++)
+		if (str[len] == '=')
+			len++;
+		if (len)
 		{
-			if (str[len] != '\'')
-				buffer[i++] = str[len];
+			for (; str && str[len]; len++)
+			{
+				if (str[len] != '\'')
+					buffer[i++] = str[len];
+			}
 		}
 		buffer[i] = 0;
 		if (!buffer[0])
@@ -38,10 +42,10 @@ char *get_name_or_value(char *str, int flag)
 void __create_new_alias_name(char *str, t_container *src)
 {
 	int len = 0, true = 1;
-    char **name, **value, *tmp;
+	char **name, **value, *tmp;
 
-	name = malloc(sizeof(char *) * (TwoDPointerCounter(src->alias.name) + 2));
-	value = malloc(sizeof(char *) * (TwoDPointerCounter(src->alias.value) + 2));
+	name = malloc(sizeof(char *) * (TDPCounter(src->alias.name) + 2));
+	value = malloc(sizeof(char *) * (TDPCounter(src->alias.value) + 2));
 	while (src->alias.name[len])
 	{
 		name[len] = malloc(_strlen(src->alias.name[len]) + 2);
@@ -75,7 +79,7 @@ void __create_new_alias_name(char *str, t_container *src)
 
 void create_new_alias(char *str, t_container *src)
 {
-	if (!TwoDPointerCounter(src->alias.name))
+	if (!TDPCounter(src->alias.name))
 		__IfAliasIsEmpty(str, src);
 	else
 		__create_new_alias_name(str, src);

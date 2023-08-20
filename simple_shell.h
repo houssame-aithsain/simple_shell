@@ -11,12 +11,16 @@
 #include <errno.h>
 #include <string.h>
 #include <fcntl.h>
+#include <dirent.h>
 
+# define MAIN 0
+# define FD 2
 # define TRUE 1
 # define AND_CMDS 12
 # define OR_CMDS 13
 # define NAME 74
 # define VALUE 75
+# define EMPTY -777
 
 
 # ifndef BUFFER_SIZE
@@ -31,25 +35,31 @@ typedef struct alias{
 } t_alias;
 
 typedef struct container{
+	char	**splitedLines;
 	char	**mc_arg;
 	char	**arg;
 	char	**env;
+	char	*cmd_path;
+	char	*mainLine;
+	char	*fdLine;
 	char	*p_name;
 	char	*line;
 	char	*path;
 	char	*HOME;
-	char	*cmd_path;
 	char	current_p[1024];
 	char	last_p[1024];
 	int		exit_status;
 	int		cmd_counter;
+	int		is_empty;
+	int		arg_lent;
 	int		op;
+	int		is_fd;
 	t_alias	alias;
 } t_container;
 
 /*-------------Main-Utils---------------*/
 void __var_init(t_container *src, int argc, char **argv);
-void __main_free(t_container *src);
+void __main_free(t_container *src, int flag);
 int __fd_status(char *filename);
 void __new_line_sanitizer(char *str);
 void __filename_input(t_container *src, char *line);
@@ -65,17 +75,17 @@ void __IfAliasIsEmpty(char *str, t_container *src);
 void __create_new_alias_name(char *str, t_container *src);
 char *get_name_or_value(char *str, int flag);
 void __new_alias_table(t_container *src, char **name, char **value);
-int TwoDPointerCounter(char **arr);
+int TDPCounter(char **arr);
 /*-------------AliasBuiltin-----------*/
 void create_new_alias(char *str, t_container *src);
 int PrintAliasName(t_container *src, int flag, int i);
-void _alias_error(t_container *src, int len, int i);
+void _alias_error(t_container *src, int len, int i, int flag);
 /*-------------getline---------------*/
 char	*_getline(int fd);
 char	*_strjoin(char *s1, char *s2);
 int		_if_new_line(char *buffer);
 /*-------------End-getline-----------*/
-void	ReplaceVarbyItsValue(t_container *src);
+void	_expand(t_container *src);
 
 void	split_cmd_line(char *line, t_container *src);
 int		SortCmdType(char *line, t_container *src);
@@ -107,8 +117,23 @@ int		is_alias(t_container *src);
 void	_putnbr(int number);
 /*-------------print-errors----------*/
 void    _cd_error(t_container *src);
-void	_cmd_not_found(t_container *src);
+void	_cmd_not_found(t_container *src, int flag);
 void _execute(t_container *src);
 char	*ft_itoa(int n);
+/*-------------ExpandCore-----------*/
+char *__var(char *str, char *value, int *i, t_container *src);
+char *__ps_id(char *value, int *i);
+char *__exit_status(char *value, int *i, t_container *src);
+char *__string(char *str, char *value, int *i);
+/*-------------ExpandUtils-----------*/
+int GetVarLent(char *str);
+char *get_exit_status(int exit_status);
+char *get_str_format(char *str);
+char *get_ps_id();
+char *get_var_value(char *str, char **env);
+char *SortStrType(char *str, t_container *src);
+void _NPC_remover(t_container *src);
+int GetVarLent_str(char *str);
 
+int is_path(t_container *src);
 #endif/*SIMPLE_SHELL*/

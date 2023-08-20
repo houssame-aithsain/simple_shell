@@ -4,6 +4,7 @@ char **__GetExecuteMCmds(t_container *src, int *i)
 {
 	char **mc_arg;
 
+	mc_arg = NULL;
 	while (src->line[*i])
 	{
 		if (!_strncmp(*i + src->line, "&&", 2))
@@ -25,26 +26,25 @@ char **__GetExecuteMCmds(t_container *src, int *i)
 
 int	is_multiple_cmds(t_container *src)
 {
-	char **mc_arg;
 	int i = 0, p = 0;
 
 	src->op = 0;
-	mc_arg = __GetExecuteMCmds(src, &i);
+	src->mc_arg = __GetExecuteMCmds(src, &i);
 	if (!src->line[i])
 		SortCmdType(src->line, src);
 	else
 	{
-		for (; mc_arg[p]; p++)
+		for (; src->mc_arg[p]; p++)
 		{
-			if (SortCmdType(mc_arg[p], src))
+			if (SortCmdType(src->mc_arg[p], src))
 				break;
 		}
-		_free(mc_arg, NULL, 1);
+		_free(src->mc_arg, NULL, 1);
 	}
-	return (0);  
+	return (0);
 }
 
-void _comments_sanitizer(char *line)
+int _comments_sanitizer(char *line)
 {
 	int i = -1;
 
@@ -53,23 +53,25 @@ void _comments_sanitizer(char *line)
 		if (line && line[i] == '#')
 			line[i] = 0;
 	}
+	if (!line[0])
+		return (-77);
+	return (0);
 }
 
 void split_cmd_line(char *line, t_container *src)
 {
 	int i = 0;
-	char **cmds;
 
-	_comments_sanitizer(line);
-	cmds = strtow(line, ';');
-	while (cmds[i])
+	if (_comments_sanitizer(line))
+		return;
+	src->splitedLines = strtow(line, ';');
+	while (src->splitedLines[i])
 	{
 		src->cmd_counter++;
-		src->line = malloc(_strlen(cmds[i]) + 1);
-		_strcpy(src->line, cmds[i]);
+		src->line = _strdup(src->splitedLines[i]);
 		is_multiple_cmds(src);
 		free(src->line);
 		i++;
 	}
-	_free(cmds, NULL, 1);
+	_free(src->splitedLines, NULL, 1);
 }

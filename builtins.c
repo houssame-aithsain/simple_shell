@@ -4,10 +4,43 @@ void __exit(t_container *src)
 {
 	if (!_strcmp(src->path, "exit"))
 	{
+		int exit_code;
+
 		if (src->arg[1])
-			exit(_atoi(src->arg[1]));
+		{
+			exit_code = _atoi(src->arg[1]);
+			free(src->line);
+			free(src->path);
+			if (src->is_fd)
+				free(src->fdLine);
+			if (!src->is_fd)
+				free(src->mainLine);
+			free(src->cmd_path);
+			_free(src->splitedLines, NULL, 1);
+			_free(src->mc_arg, NULL, 1);
+			_free(src->alias.name, NULL, 1);
+			_free(src->alias.value, NULL, 1);
+			_free(src->arg, NULL, 1);
+			_free(src->env, NULL, 1);
+			exit(exit_code);
+		}
 		else
+		{
+			free(src->line);
+			free(src->path);
+			if (src->is_fd)
+				free(src->fdLine);
+			if (!src->is_fd)
+				free(src->mainLine);
+			free(src->cmd_path);
+			_free(src->splitedLines, NULL, 1);
+			_free(src->mc_arg, NULL, 1);
+			_free(src->alias.name, NULL, 1);
+			_free(src->alias.value, NULL, 1);
+			_free(src->arg, NULL, 1);
+			_free(src->env, NULL, 1);
 			exit(0);
+		}
 	}
 }
 
@@ -54,6 +87,15 @@ int _alias(t_container *src)
 	{
 		if (!PrintAliasName(src, 0, i))
 			return (1);
+		while (src->arg && src->arg[i])
+		{
+			if (src->arg[i][0] == '=')
+			{
+				_alias_error(src, 0, i, 0);
+				return (22);
+			}
+			i++;
+		}
 		i = 1;
 		while (src->arg[i])
 		{
@@ -62,7 +104,7 @@ int _alias(t_container *src)
 			else
 			{
 				len = PrintAliasName(src, 1, i);
-				_alias_error(src, len, i);
+				_alias_error(src, len, i, 1);
 			}
 			i++;
 		}
@@ -74,6 +116,7 @@ int _alias(t_container *src)
 int _cd(t_container *src)
 {
 	char *HOME;
+
 	if (!_strcmp(src->path, "cd"))
 	{
 		if (src->arg[1])

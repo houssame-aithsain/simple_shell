@@ -77,7 +77,7 @@ void set_env(t_container *src)
 {
 	int len = -1;
 
-	src->env = malloc(sizeof(char *) * (TwoDPointerCounter(environ) + 2));
+	src->env = malloc(sizeof(char *) * (TDPCounter(environ) + 2));
 	while (environ[++len])
 	{
 		src->env[len] = malloc(_strlen(environ[len]) + 1);

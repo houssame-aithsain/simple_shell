@@ -26,7 +26,6 @@ int is_alias(t_container *src)
 	args[len] = NULL;
 	_free(tmp, NULL, 1);
 	_free(src->arg, NULL, 1);
-	i = 0;
 	src->arg = NULL;
 	src->arg = args;
 	free(src->path);
@@ -69,7 +68,7 @@ char **get_join_alias_args(char **args)
 
 	if (if_valide(args))
 		return (args);
-	tmp = malloc(sizeof(char *) * (TwoDPointerCounter(args) + 2));
+	tmp = malloc(sizeof(char *) * (TDPCounter(args) + 2));
 	while (args && args[++i])
 	{
 		count = 0;
