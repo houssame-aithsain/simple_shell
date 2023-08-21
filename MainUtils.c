@@ -1,5 +1,11 @@
 #include "simple_shell.h"
 
+/**
+ * _NPC_remover - Removes non-printable characters from command arguments
+ * @src: Shell container
+ *
+ * Removes non-printable characters from arguments in @src.
+ */
 void _NPC_remover(t_container *src)
 {
 	int i = -1, len, cp;
@@ -37,6 +43,14 @@ void _NPC_remover(t_container *src)
 	src->arg = arr;
 }
 
+/**
+ * __var_init - Initializes the shell container with default values
+ * @src: Shell container
+ * @argc: Number of command-line arguments
+ * @argv: Command-line arguments array
+ *
+ * Initializes fields in @src with default values.
+ */
 void __var_init(t_container *src, int argc, char **argv)
 {
 	(void)argc;
@@ -52,6 +66,14 @@ void __var_init(t_container *src, int argc, char **argv)
 	set_env(src);
 }
 
+
+/**
+ * __main_free - Frees memory allocated for shell container resources
+ * @src: Shell container
+ * @flag: Resource deallocation flag (FD for file descriptor mode)
+ *
+ * Deallocates memory for resources in @src based on @flag.
+ */
 void __main_free(t_container *src, int flag)
 {
 	if (flag == FD)
@@ -72,6 +94,13 @@ void __main_free(t_container *src, int flag)
 	_free(src->alias.value, NULL, 1);
 }
 
+/**
+ * __fd_status - Checks if a filename contains a path separator
+ * @filename: Filename to check
+ *
+ * Checks if @filename contains a path separator (/).
+ * Return: 0 or -21.
+ */
 int __fd_status(char *filename)
 {
 	int i = 0;
@@ -84,6 +113,13 @@ int __fd_status(char *filename)
 	return (-21);
 }
 
+
+/**
+ * __new_line_sanitizer - Removes newline characters from a string
+ * @str: String to sanitize
+ *
+ * Replaces newlines in @str with null terminators.
+ */
 void __new_line_sanitizer(char *str)
 {
 	int i = -1;

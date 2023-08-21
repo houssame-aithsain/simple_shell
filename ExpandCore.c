@@ -1,5 +1,13 @@
 #include "simple_shell.h"
 
+/**
+ * __var - Expands a variable in the input string.
+ * @str: Input string.
+ * @value: Value to be expanded.
+ * @i: Pointer to the current index.
+ * @src: Container holding command and argument data.
+ * Return: Expanded value.
+ */
 char *__var(char *str, char *value, int *i, t_container *src)
 {
 	char *tmp;
@@ -11,6 +19,12 @@ char *__var(char *str, char *value, int *i, t_container *src)
 	return (value);
 }
 
+/**
+ * __ps_id - Expands the process ID in the input string.
+ * @value: Value to be expanded.
+ * @i: Pointer to the current index.
+ * Return: Expanded value.
+ */
 char *__ps_id(char *value, int *i)
 {
 	char *tmp;
@@ -22,6 +36,13 @@ char *__ps_id(char *value, int *i)
 	return (value);
 }
 
+/**
+ * __exit_status - Expands the exit status in the input string.
+ * @value: Value to be expanded.
+ * @i: Pointer to the current index.
+ * @src: Container holding command and argument data.
+ * Return: Expanded value.
+ */
 char *__exit_status(char *value, int *i, t_container *src)
 {
 	char *tmp;
@@ -33,6 +54,13 @@ char *__exit_status(char *value, int *i, t_container *src)
 	return (value);
 }
 
+/**
+ * __string - Expands a string in the input string.
+ * @str: Input string.
+ * @value: Value to be expanded.
+ * @i: Pointer to the current index.
+ * Return: Expanded value.
+ */
 char *__string(char *str, char *value, int *i)
 {
 	char *tmp;
@@ -44,6 +72,12 @@ char *__string(char *str, char *value, int *i)
 	return (value);
 }
 
+
+/**
+ * _expand - Expands variables, process ID, exit status
+ * and strings in arguments.
+ * @src: Container holding command and argument data.
+ */
 void _expand(t_container *src)
 {
 	int i = 0, len;
@@ -80,8 +114,3 @@ void _expand(t_container *src)
 	if (!src->arg[0] || !src->arg[0][0])
 		src->is_empty = EMPTY;
 }
-/*
-echo $$$PATH$$hello,world$$
-alias ll='echo $PATH'
-alias ll='echo $PATH $PWD $SDFSDF'
-*/

@@ -1,5 +1,11 @@
 #include "simple_shell.h"
 
+/**
+ * _strjoin - Concatenates two strings.
+ * @s1: First string.
+ * @s2: Second string.
+ * Return: New string containing concatenated s1 and s2.
+ */
 char	*_strjoin(char *s1, char *s2)
 {
 	char	*arr;
@@ -24,6 +30,11 @@ char	*_strjoin(char *s1, char *s2)
 	return (arr);
 }
 
+/**
+ * _if_new_line - Checks if a string contains a new line character.
+ * @buffer: Input string.
+ * Return: 0 if new line character found, 1 otherwise.
+ */
 int	_if_new_line(char *buffer)
 {
 	size_t	i;

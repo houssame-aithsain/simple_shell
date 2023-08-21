@@ -1,10 +1,21 @@
 #include "simple_shell.h"
 
+
+/**
+ * get_exit_status - Converts the exit status to a string.
+ * @exit_status: The exit status to be converted.
+ * Return: The exit status as a string.
+ */
 char *get_exit_status(int exit_status)
 {
-	return (ft_itoa(exit_status));
+	return (_itoa(exit_status));
 }
 
+/**
+ * get_str_format - Extracts a string format from the input string.
+ * @str: Input string.
+ * Return: Extracted string format.
+ */
 char *get_str_format(char *str)
 {
 	int i = 0, cp = 0;
@@ -17,11 +28,21 @@ char *get_str_format(char *str)
 	return (tmp);
 }
 
+/**
+ * get_ps_id - Retrieves the process ID as a string.
+ * Return: The process ID as a string.
+ */
 char *get_ps_id()
 {
-	return (ft_itoa(getpid()));
+	return (_itoa(getpid()));
 }
 
+/**
+ * get_var_value - Retrieves the value of a variable from the environment.
+ * @str: Variable name.
+ * @env: Environment array.
+ * Return: Value of the variable or special character.
+ */
 char *get_var_value(char *str, char **env)
 {
 	int i = 0;
@@ -52,6 +73,13 @@ char *get_var_value(char *str, char **env)
 	return (value);
 }
 
+/**
+ * SortStrType - Expands variables, process ID
+ * exit status, and strings in a string.
+ * @str: Input string.
+ * @src: Container holding command and argument data.
+ * Return: Expanded string.
+ */
 char *SortStrType(char *str, t_container *src)
 {
 	int i = -1;

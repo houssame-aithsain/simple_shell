@@ -1,5 +1,12 @@
 #include "simple_shell.h"
 
+
+/**
+ * get_after_new_line - Extracts the content of a string
+ * after the first newline character.
+ * @container: Original string.
+ * Return: New string containing content after newline.
+ */
 char	*get_after_new_line(char *container)
 {
 	char	*arr;
@@ -26,6 +33,12 @@ char	*get_after_new_line(char *container)
 	return (arr);
 }
 
+/**
+ * get_befor_new_line - Extracts the content of a string
+ * before the first newline character.
+ * @container: Original string.
+ * Return: New string containing content before newline.
+ */
 char	*get_befor_new_line(char *container)
 {
 	char	*arr;
@@ -52,6 +65,12 @@ char	*get_befor_new_line(char *container)
 	return (arr);
 }
 
+/**
+ * get_line_copy - Reads from file descriptor and copies content to a buffer.
+ * @fd: File descriptor.
+ * @container: Current content.
+ * Return: Updated container.
+ */
 char	*get_line_copy(int fd, char *container)
 {
 	char	*buffer;
@@ -73,12 +92,17 @@ char	*get_line_copy(int fd, char *container)
 		buffer[size] = 0;
 		container = _strjoin(container, buffer);
 		if (!_if_new_line(buffer))
-			break ;
+			break;
 	}
 	free(buffer);
 	return (container);
 }
 
+/**
+ * _getline - Reads a line from a file descriptor.
+ * @fd: File descriptor.
+ * Return: Pointer to the read line.
+ */
 char	*_getline(int fd)
 {
 	static char	*container;

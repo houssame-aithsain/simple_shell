@@ -1,14 +1,29 @@
 #include "simple_shell.h"
 
+/**
+ * __filename_input - Processes commands from a file and executes them
+ * @src: Pointer to the shell container
+ * @str: String containing the filename to read commands from
+ *
+ * This function opens the specified file and reads commands from it line
+ * by line.
+ * Each command line is processed and executed. The shell container's state may
+ * change as a result of executing commands from the file.
+ */
 void __filename_input(t_container *src, char *str)
 {
 	int fd = -1;
 	char **tmp;
+	DIR *dir;
 
 	tmp = strtow(str, ' ');
 	__new_line_sanitizer(tmp[0]);
-	if (_strcmp(tmp[0], ".") && _strcmp(tmp[0], "..") && __fd_status(tmp[0]))
+	dir = opendir(tmp[0]);
+	if (_strcmp(tmp[0], ".") && _strcmp(tmp[0], "..") && __fd_status(tmp[0])
+		&& !dir)
 		fd = open(tmp[0], O_RDONLY);
+	if (dir)
+		closedir(dir);
 	if (fd > 0)
 	{
 		_free(tmp, NULL, 1);
@@ -52,7 +67,8 @@ int main(int argc, char **argv)
 	{
 		src.mainLine = NULL;
 		src.arg = NULL;
-		write(1, "simple_shell$> ", 15);
+		if (isatty(STDIN_FILENO))
+			write(1, "simple_shell$> ", 15);
 		src.mainLine = _getline(STDIN_FILENO);
 		if (!src.mainLine)
 		{

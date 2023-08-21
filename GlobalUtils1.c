@@ -1,5 +1,11 @@
 #include "simple_shell.h"
 
+/**
+ * ft_check_numb - Counts the number of digits in a long integer
+ * @n: The long integer to count digits for
+ *
+ * Return: The number of digits in n
+ */
 int	ft_check_numb(long int n)
 {
 	int	i;
@@ -16,12 +22,18 @@ int	ft_check_numb(long int n)
 		if (n)
 			i++;
 		else
-			break ;
+			break;
 	}
 	return (i);
 }
 
-char	*ft_itoa(int n)
+/**
+ * _itoa - Converts an integer to a string
+ * @n: The integer to convert
+ *
+ * Return: A string representation of the integer
+ */
+char	*_itoa(int n)
 {
 	int			i;
 	int			x;
@@ -120,7 +132,7 @@ int _str_len(char *s, char c, int flag)
  * strtow - Splits a string into an array of substrings based
  * on a delimiter character.
  * @str: The input string.
- *
+ * @c: spliter.
  * Return: The array of substrings.
  */
 char **strtow(char *str, char c)

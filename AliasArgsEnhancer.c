@@ -1,12 +1,17 @@
 #include "simple_shell.h"
 
-int is_alias(t_container *src)
+/**
+ * AliasLineEnhancer - Expands command with alias substitution.
+ * @src: Container holding alias data and arguments.
+ * Return: 0 on success, -15 if no alias found.
+ */
+int AliasLineEnhancer(t_container *src)
 {
 	int i = 0, len = 0;
 	char **args, **tmp;
 
 	if (!src->alias.name)
-		return -15;
+		return (-15);
 	while (src->alias.name[i])
 	{
 		if (!_strcmp(src->alias.name[i], src->arg[0]))
@@ -14,7 +19,7 @@ int is_alias(t_container *src)
 		i++;
 	}
 	if (!src->alias.name[i] || !_strcmp(src->alias.value[i], ""))
-		return -15;
+		return (-15);
 	args = malloc(sizeof(char *) * 100);
 	tmp = strtow(src->alias.value[i], ' ');
 	i = 0;
@@ -33,6 +38,11 @@ int is_alias(t_container *src)
 	return (0);
 }
 
+/**
+ * if_valide - Checks if command is valid for alias expansion.
+ * @args: Arguments to check.
+ * Return: 0 if valid, -20 otherwise.
+ */
 int if_valide(char **args)
 {
 	int i = 0, s_quote = 0;
@@ -48,6 +58,11 @@ int if_valide(char **args)
 	return (-20);
 }
 
+/**
+ * if_s_quote - Checks if string has single quotes.
+ * @arg: String to check.
+ * Return: Count of single quotes found.
+ */
 int if_s_quote(char *arg)
 {
 	int i = 0, s_quote = 0;
@@ -61,6 +76,11 @@ int if_s_quote(char *arg)
 	return (s_quote);
 }
 
+/**
+ * get_join_alias_args - Joins args with embedded quotes.
+ * @args: Arguments to process.
+ * Return: Processed arguments.
+ */
 char **get_join_alias_args(char **args)
 {
 	char **tmp;

@@ -1,25 +1,11 @@
 #include "simple_shell.h"
 
 /**
- * _strlen - Calculates the length of a string.
- * @s: Pointer to the string.
+ * get_HOME_dir - Retrieves the value of the HOME environment variable
  *
- * Description: This function calculates the length of a string by
- *              iterating through the characters until it reaches
- *              the null terminator ('\0').
- *
- * Return: The length of the string.
+ * Return: A pointer to the value of the HOME environment variable,
+ *         or NULL if it is not found.
  */
-size_t _strlen(char *s)
-{
-	int i;
-
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
-}
-
 char *get_HOME_dir(void)
 {
 	char *path;
@@ -32,7 +18,7 @@ char *get_HOME_dir(void)
 			path = _strdup(environ[i]);
 	}
 	if (!path)
-		return NULL;
+		return (NULL);
 	return (_strcpy(path, path + 5));
 }
 
@@ -59,6 +45,13 @@ char *_strdup(char *str)
 	return (s_malloc);
 }
 
+/**
+ * __strjoin - Concatenates two strings with a space between
+ * @s1: The first string
+ * @s2: The second string
+ *
+ * Return: A new string containing the concatenated result
+ */
 char	*__strjoin(char *s1, char *s2)
 {
 	char	*arr;
@@ -84,6 +77,12 @@ char	*__strjoin(char *s1, char *s2)
 	return (arr);
 }
 
+/**
+ * GetVarLent_str - Determines the length of a variable name in a string format
+ * @str: The string containing the variable
+ *
+ * Return: The length of the variable name
+ */
 int GetVarLent_str(char *str)
 {
 	int i = 0;
@@ -92,11 +91,18 @@ int GetVarLent_str(char *str)
 		i++;
 	return (i);
 }
+
+/**
+ * GetVarLent - Determines the length of a variable assignment in a string
+ * @str: The string containing the variable assignment
+ *
+ * Return: The length of the variable assignment
+ */
 int GetVarLent(char *str)
 {
 	int i = 0;
 
-	while (str && str[i] && str[i] != '$' && str[i] != '=' )
+	while (str && str[i] && str[i] != '$' && str[i] != '=')
 		i++;
 	return (i);
 }

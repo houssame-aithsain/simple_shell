@@ -1,5 +1,9 @@
 #include "simple_shell.h"
 
+/**
+ * __exit - Handles the 'exit' command.
+ * @src: Container holding command and argument data.
+ */
 void __exit(t_container *src)
 {
 	if (!_strcmp(src->path, "exit"))
@@ -9,41 +13,24 @@ void __exit(t_container *src)
 		if (src->arg[1])
 		{
 			exit_code = _atoi(src->arg[1]);
-			free(src->line);
-			free(src->path);
-			if (src->is_fd)
-				free(src->fdLine);
-			if (!src->is_fd)
-				free(src->mainLine);
-			free(src->cmd_path);
-			_free(src->splitedLines, NULL, 1);
-			_free(src->mc_arg, NULL, 1);
-			_free(src->alias.name, NULL, 1);
-			_free(src->alias.value, NULL, 1);
-			_free(src->arg, NULL, 1);
-			_free(src->env, NULL, 1);
+			__free_all(src);
 			exit(exit_code);
 		}
 		else
 		{
-			free(src->line);
-			free(src->path);
-			if (src->is_fd)
-				free(src->fdLine);
-			if (!src->is_fd)
-				free(src->mainLine);
-			free(src->cmd_path);
-			_free(src->splitedLines, NULL, 1);
-			_free(src->mc_arg, NULL, 1);
-			_free(src->alias.name, NULL, 1);
-			_free(src->alias.value, NULL, 1);
-			_free(src->arg, NULL, 1);
-			_free(src->env, NULL, 1);
+			__free_all(src);
 			exit(0);
 		}
 	}
 }
 
+/**
+ * PrintAliasName - Prints alias name and value.
+ * @src: Container holding alias data.
+ * @flag: Flag indicating the printing mode.
+ * @i: Index for array traversal.
+ * Return: Result code based on operation success.
+ */
 int PrintAliasName(t_container *src, int flag, int i)
 {
 	int len = 0;
@@ -79,6 +66,11 @@ int PrintAliasName(t_container *src, int flag, int i)
 	return (len);
 }
 
+/**
+ * _alias - Handles the 'alias' command.
+ * @src: Container holding command and argument data.
+ * Return: Result code based on operation success.
+ */
 int _alias(t_container *src)
 {
 	int i = 0, len;
@@ -113,6 +105,11 @@ int _alias(t_container *src)
 	return (0);
 }
 
+/**
+ * _cd - Handles the 'cd' command.
+ * @src: Container holding command and argument data.
+ * Return: Result code based on operation success.
+ */
 int _cd(t_container *src)
 {
 	char *HOME;
@@ -136,7 +133,8 @@ int _cd(t_container *src)
 		}
 		if (!src->arg[1])
 		{
-			if (chdir(HOME = get_HOME_dir()))
+			HOME = get_HOME_dir();
+			if (chdir(HOME))
 				perror("chdir");
 			free(HOME);
 		}
@@ -149,6 +147,11 @@ int _cd(t_container *src)
 	return (0);
 }
 
+/**
+ * builtins - Checks if a command is a built-in command and executes it.
+ * @src: Container holding command and argument data.
+ * Return: Result code based on operation success.
+ */
 int builtins(t_container *src)
 {
 	__exit(src);

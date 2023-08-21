@@ -1,5 +1,14 @@
 #include "simple_shell.h"
 
+/**
+ * __GetExecuteMCmds - Retrieves and classifies multiple command operators
+ * @src: Shell container
+ * @i: Pointer to the current position in the input line
+ *
+ * Retrieves and classifies multiple command operators (&& or ||).
+ * Returns an array of strings containing the parsed commands.
+ * Return: mc_arg.
+ */
 char **__GetExecuteMCmds(t_container *src, int *i)
 {
 	char **mc_arg;
@@ -24,6 +33,14 @@ char **__GetExecuteMCmds(t_container *src, int *i)
 	return (mc_arg);
 }
 
+/**
+ * is_multiple_cmds - Determines if the input line contains multiple commands
+ * @src: Shell container
+ *
+ * Analyzes the input line in @src to determine if it multiple commands
+ * connected with logical operators. Sets the 'op' field in @src accordingly.
+ * Return: 0.
+ */
 int	is_multiple_cmds(t_container *src)
 {
 	int i = 0, p = 0;
@@ -44,6 +61,13 @@ int	is_multiple_cmds(t_container *src)
 	return (0);
 }
 
+/**
+ * _comments_sanitizer - Removes comments from a line of input
+ * @line: Input line to sanitize
+ *
+ * Removes comments (lines starting with '#') from @line.
+ * Return: -77 if the entire line is a comment, otherwise 0.
+ */
 int _comments_sanitizer(char *line)
 {
 	int i = -1;
@@ -58,6 +82,13 @@ int _comments_sanitizer(char *line)
 	return (0);
 }
 
+/**
+ * split_cmd_line - Splits and processes a line of input into commands
+ * @line: Input line to split
+ * @src: Shell container
+ *
+ * Splits @line into separate commands and processes each command.
+ */
 void split_cmd_line(char *line, t_container *src)
 {
 	int i = 0;

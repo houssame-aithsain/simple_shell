@@ -1,5 +1,11 @@
 #include "simple_shell.h"
 
+/**
+ * get_name_or_value - Extracts name or value from string.
+ * @str: Input string containing name=value format.
+ * @flag: Flag indicating name or value extraction.
+ * Return: Extracted name or value.
+ */
 char *get_name_or_value(char *str, int flag)
 {
 	char *buffer;
@@ -39,6 +45,11 @@ char *get_name_or_value(char *str, int flag)
 	return (buffer);
 }
 
+/**
+ * __create_new_alias_name - Creates new alias with name substitution.
+ * @str: Input string containing new alias.
+ * @src: Container holding alias data.
+ */
 void __create_new_alias_name(char *str, t_container *src)
 {
 	int len = 0, true = 1;
@@ -51,18 +62,23 @@ void __create_new_alias_name(char *str, t_container *src)
 		name[len] = malloc(_strlen(src->alias.name[len]) + 2);
 		value[len] = malloc(_strlen(src->alias.value[len]) + _strlen(str));
 		_strcpy(name[len], src->alias.name[len]);
-		if (_strcmp(src->alias.name[len], (tmp = get_name_or_value(str, NAME))))
+		tmp = get_name_or_value(str, NAME);
+		if (_strcmp(src->alias.name[len], tmp))
 		{
 			_strcpy(value[len], src->alias.value[len]);
 			free(tmp);
+			tmp = NULL;
 		}
 		else
 		{
 			free(tmp);
-			_strcpy(value[len], (tmp = get_name_or_value(str, VALUE)));
+			tmp = get_name_or_value(str, VALUE);
+			_strcpy(value[len], tmp);
 			free(tmp);
+			tmp = NULL;
 			true = 0;
 		}
+		free(tmp);
 		len++;
 	}
 	name[len] = NULL;
@@ -77,6 +93,11 @@ void __create_new_alias_name(char *str, t_container *src)
 	__new_alias_table(src, name, value);
 }
 
+/**
+ * create_new_alias - Creates new alias based on input string.
+ * @str: Input string containing new alias.
+ * @src: Container holding alias data.
+ */
 void create_new_alias(char *str, t_container *src)
 {
 	if (!TDPCounter(src->alias.name))
@@ -84,5 +105,3 @@ void create_new_alias(char *str, t_container *src)
 	else
 		__create_new_alias_name(str, src);
 }
-
-/*ls; ls -la; lss || echo startOR; echo startAND && lss; alias n============================; alias n; alias; alias n=ls; alias n='echo hello world sdfsdf sdfsd sdfsdf sdfsdf sdf98484 4'; alias n; dfgd fg df g dfgdfg ; env ; setenv h hellow ; env ; unset hellow;*/

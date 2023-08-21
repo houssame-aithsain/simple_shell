@@ -29,12 +29,42 @@
 
 extern char **environ;
 
-typedef struct alias{
+/**
+ * struct alias - Holds alias information
+ * @name: Array of alias names
+ * @value: Array of corresponding alias values
+ */
+typedef struct alias
+{
 	char **name;
 	char **value;
 } t_alias;
 
-typedef struct container{
+/**
+ * struct container - Holds various information related to the shell
+ * @splitedLines: Array to hold split command lines
+ * @mc_arg: Array for multiple command arguments
+ * @arg: Array to hold command arguments
+ * @env: Array to hold environment variables
+ * @cmd_path: Path of the current command being executed
+ * @mainLine: Original main input line
+ * @fdLine: Line read from a file descriptor
+ * @p_name: Name of the shell process
+ * @line: Current command line being processed
+ * @path: Current working directory path
+ * @HOME: Home directory path
+ * @current_p: Current working directory path (longer version)
+ * @last_p: Previous working directory path
+ * @exit_status: Exit status of the last command
+ * @cmd_counter: Count of executed commands
+ * @is_empty: Flag to indicate if a line is empty
+ * @arg_lent: Length of the argument array
+ * @op: Operator code for command chaining
+ * @is_fd: Flag to indicate if processing a file descriptor
+ * @alias: Structure to hold alias information
+ */
+typedef struct container
+{
 	char	**splitedLines;
 	char	**mc_arg;
 	char	**arg;
@@ -113,13 +143,13 @@ char	*_substr(char *s, int start, size_t len);
 char	*__strjoin(char *s1, char *s2);
 int		if_s_quote(char *arg);
 int		__is_alias_of_x(char *var);
-int		is_alias(t_container *src);
+int		AliasLineEnhancer(t_container *src);
 void	_putnbr(int number);
 /*-------------print-errors----------*/
 void    _cd_error(t_container *src);
 void	_cmd_not_found(t_container *src, int flag);
 void _execute(t_container *src);
-char	*ft_itoa(int n);
+char	*_itoa(int n);
 /*-------------ExpandCore-----------*/
 char *__var(char *str, char *value, int *i, t_container *src);
 char *__ps_id(char *value, int *i);
@@ -136,4 +166,5 @@ void _NPC_remover(t_container *src);
 int GetVarLent_str(char *str);
 
 int is_path(t_container *src);
+void	__free_all(t_container *src);
 #endif/*SIMPLE_SHELL*/

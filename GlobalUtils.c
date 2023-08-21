@@ -54,14 +54,15 @@ int _strcmp(char *s1, char *s2)
 }
 
 /**
- * _strcmp - Compares two strings
+ * _strncmp - Compares two strings lexicographically up to n characters
  * @s1: Pointer to the first string
  * @s2: Pointer to the second string
+ * @n: Number of characters to compare
  *
  * Return: Integer value indicating the comparison result
- *   - Less than 0 if s1 is less than s2
- *   - 0 if s1 is equal to s2
- *   - Greater than 0 if s1 is greater than s2
+ *   - Less than 0 if s1 is lexicographically less than s2
+ *   - 0 if s1 is lexicographically equal to s2
+ *   - Greater than 0 if s1 is lexicographically greater than s2
  */
 int	_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -103,30 +104,39 @@ char *_strcpy(char *dest, char *src)
 	return (dest);
 }
 
+/**
+ * _free - Frees allocated memory for an array of strings
+ * and/or a single string.
+ * @d_pointer: Double pointer to an array of strings.
+ * @pointer: Pointer to a single string.
+ * @flag: Indicator for the memory freeing scenario:
+ *        1: Free array of strings.
+ *       -1: Free single string and array of strings.
+ *        0: Free only a single string.
+ */
 void _free(char **d_pointer, char *pointer, int flag)
 {
-    int i = 0;
+	int i = 0;
 
-    if (flag == 1)
-    {
-        while (d_pointer && d_pointer[i])
-            free(d_pointer[i++]);
-	    if (d_pointer)
-        	free(d_pointer);
-    }
-    else if (flag == -1)
-    {
-		if (pointer)
-        	free(pointer);
-        while (d_pointer && d_pointer[i])
-            free(d_pointer[i++]);
+	if (flag == 1)
+	{
+		while (d_pointer && d_pointer[i])
+			free(d_pointer[i++]);
 		if (d_pointer)
-        	free(d_pointer);
-    }
-    else
-    {
+			free(d_pointer);
+	}
+	else if (flag == -1)
+	{
+		if (pointer)
+			free(pointer);
+		while (d_pointer && d_pointer[i])
+			free(d_pointer[i++]);
+		if (d_pointer)
+			free(d_pointer);
+	}
+	else
+	{
 		if (pointer)
 			free(pointer);
 	}
 }
-

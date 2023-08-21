@@ -1,5 +1,13 @@
 #include "simple_shell.h"
 
+/**
+ * _var_check - Check if a variable name is valid
+ * @name: Name of the variable
+ * @value: Value of the variable
+ *
+ * Checks if the variable name @name is valid and doesn't contain '='.
+ * Return: 0 if valid, -2 if invalid.
+ */
 int _var_check(char *name, char *value)
 {
 	int i = 0;
@@ -14,6 +22,16 @@ int _var_check(char *name, char *value)
 	return (0);
 }
 
+/**
+ * __is_exist - Check if a variable exists in the environment
+ * @name: Name of the variable
+ * @value: Value of the variable
+ * @src: Shell container
+ *
+ * Checks if the variable @name exists in the environment
+ * of the shell container @src.
+ * Return: 0 if exists, -10 if not found.
+ */
 int __is_exist(char *name, char *value, t_container *src)
 {
 	int p = 0, cp, i;
@@ -39,6 +57,16 @@ int __is_exist(char *name, char *value, t_container *src)
 	return (0);
 }
 
+/**
+ * _create_new_var - Create a new environment variable
+ * @name: Name of the variable
+ * @value: Value of the variable
+ * @src: Shell container
+ *
+ * Creates a new environment variable with the given @name
+ * and @value in the shell container @src.
+ * Return: 0 on success.
+ */
 int _create_new_var(char *name, char *value, t_container *src)
 {
 	int i = -1, cp, len = 0;
@@ -73,6 +101,13 @@ int _create_new_var(char *name, char *value, t_container *src)
 	return (0);
 }
 
+/**
+ * set_env - Set up the initial environment in the shell container
+ * @src: Shell container
+ *
+ * Sets up the initial environment in the shell container @src by
+ * copying the environment variables.
+ */
 void set_env(t_container *src)
 {
 	int len = -1;
