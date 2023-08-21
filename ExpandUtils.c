@@ -91,7 +91,8 @@ char *SortStrType(char *str, t_container *src)
 	{
 		if (str[i] == '$' && (str[i + 1] == '=' || !str[i + 1]))
 			value = _strjoin(value, "$");
-		else if (str[i] == '$' && str[i + 1] && str[i + 1] != '$' && str[i + 1] != '?')
+		else if (str[i] == '$' && str[i + 1]
+			&& str[i + 1] != '$' && str[i + 1] != '?')
 			value = __var(str, value, &i, src);
 		else if (str[i] == '$' && str[i + 1] == '$')
 			value = __ps_id(value, &i);
