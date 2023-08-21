@@ -40,7 +40,7 @@ void _alias_error(t_container *src, int len, int i, int flag)
 {
 	if (!flag && src->arg[i][0] == '=')
 	{
-		write(2, ANSI_COLOR_RED, _strlen(ANSI_COLOR_RED));
+		write(2, ANSI_COLOR_YELLOW, _strlen(ANSI_COLOR_YELLOW));
 		src->exit_status = 1;
 		write(2, "alias: ", 7);
 		write(2, src->arg[i], _strlen(src->arg[i]));
@@ -49,9 +49,11 @@ void _alias_error(t_container *src, int len, int i, int flag)
 	}
 	if (flag && (!src->alias.name || !src->alias.name[len]))
 	{
+		write(2, ANSI_COLOR_YELLOW, _strlen(ANSI_COLOR_YELLOW));
 		write(2, "alias: ", 7);
 		write(2, src->arg[i], _strlen(src->arg[i]));
 		write(2, " not found\n", 11);
+		write(2, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
 		src->exit_status = 1;
 	}
 }
