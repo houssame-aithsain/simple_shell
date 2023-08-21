@@ -60,9 +60,9 @@ void __var_init(t_container *src, int argc, char **argv)
 	src->p_name = argv[0];
 	src->alias.name = NULL;
 	src->alias.value = NULL;
-	if (!getcwd(src->current_p, sizeof(src->current_p)))
+	if (!getcwd(src->PWD, sizeof(src->PWD)))
 		perror("getcwd");
-	_strcpy(src->last_p, src->current_p);
+	_strcpy(src->OLDPWD, src->PWD);
 	set_env(src);
 }
 

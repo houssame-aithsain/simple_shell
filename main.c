@@ -1,6 +1,28 @@
 #include "simple_shell.h"
 
 /**
+ * DisplayedPrompt - Display the custom shell prompt
+ *
+ * Prints the custom shell prompt
+ * including the shell name and the prompt symbol.
+ * Utilizes ANSI color codes for shell name
+ * and prompt symbol coloring.
+ */
+void DisplayedPrompt(void)
+{
+	write(1, ANSI_COLOR_MAGENTA, _strlen(ANSI_COLOR_MAGENTA));
+	write(1, "╰──", 6);
+	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
+	write(1, ANSI_COLOR_CYAN, _strlen(ANSI_COLOR_CYAN));
+	write(1, "simple_shell$", 13);
+	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
+	write(1, ANSI_COLOR_MAGENTA, _strlen(ANSI_COLOR_MAGENTA));
+	write(1, "─{ ", 6);
+	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
+}
+
+
+/**
  * __filename_input - Processes commands from a file and executes them
  * @src: Pointer to the shell container
  * @str: String containing the filename to read commands from
@@ -19,8 +41,8 @@ void __filename_input(t_container *src, char *str)
 	tmp = strtow(str, ' ');
 	__new_line_sanitizer(tmp[0]);
 	dir = opendir(tmp[0]);
-	if (_strcmp(tmp[0], ".") && _strcmp(tmp[0], "..") && __fd_status(tmp[0])
-		&& !dir)
+	if (_strcmp(tmp[0], ".") && _strcmp(tmp[0], "..")
+		&& __fd_status(tmp[0]) && !dir)
 		fd = open(tmp[0], O_RDONLY);
 	if (dir)
 		closedir(dir);
@@ -68,7 +90,7 @@ int main(int argc, char **argv)
 		src.mainLine = NULL;
 		src.arg = NULL;
 		if (isatty(STDIN_FILENO))
-			write(1, "simple_shell$> ", 15);
+			DisplayedPrompt();
 		src.mainLine = _getline(STDIN_FILENO);
 		if (!src.mainLine)
 		{

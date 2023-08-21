@@ -1,6 +1,15 @@
 #ifndef SIMPLE_SHELL
 #define SIMPLE_SHELL
 
+/*ANSI escape codes for text color*/
+#define ANSI_COLOR_RED     "\x1b[91m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -53,8 +62,8 @@ typedef struct alias
  * @line: Current command line being processed
  * @path: Current working directory path
  * @HOME: Home directory path
- * @current_p: Current working directory path (longer version)
- * @last_p: Previous working directory path
+ * @PWD: Current working directory path (longer version)
+ * @OLDPWD: Previous working directory path
  * @exit_status: Exit status of the last command
  * @cmd_counter: Count of executed commands
  * @is_empty: Flag to indicate if a line is empty
@@ -76,8 +85,8 @@ typedef struct container
 	char	*line;
 	char	*path;
 	char	*HOME;
-	char	current_p[1024];
-	char	last_p[1024];
+	char	PWD[1024];
+	char	OLDPWD[1024];
 	int		exit_status;
 	int		cmd_counter;
 	int		is_empty;

@@ -120,9 +120,9 @@ int _cd(t_container *src)
 		{
 			if (!_strcmp(src->arg[1], "-"))
 			{
-				if (chdir(src->last_p))
+				if (chdir(src->OLDPWD))
 					perror("chdir");
-				write(1, src->last_p, _strlen(src->last_p));
+				write(1, src->OLDPWD, _strlen(src->OLDPWD));
 				write(1, "\n", 1);
 			}
 			else
@@ -138,11 +138,11 @@ int _cd(t_container *src)
 				perror("chdir");
 			free(HOME);
 		}
-		_strcpy(src->last_p, src->current_p);
-		if (!getcwd(src->current_p, sizeof(src->current_p)))
+		_strcpy(src->OLDPWD, src->PWD);
+		if (!getcwd(src->PWD, sizeof(src->PWD)))
 			perror("getcwd");
-		_create_new_var("PWD", src->current_p, src);
-		_create_new_var("OLDPWD", src->last_p, src);
+		_create_new_var("PWD", src->PWD, src);
+		_create_new_var("OLDPWD", src->OLDPWD, src);
 		return (3);
 	}
 	return (0);
