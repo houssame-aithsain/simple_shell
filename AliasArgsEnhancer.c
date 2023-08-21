@@ -116,6 +116,8 @@ char **get_join_alias_args(char **args)
 		if (!args[i])
 			break;
 	}
+	if (tmp[t - 1][_strlen(tmp[t - 1]) - 1] == 32)
+		tmp[t - 1][_strlen(tmp[t - 1]) - 1] = 0;
 	tmp[t] = NULL;
 	_free(args, NULL, 1);
 	return (tmp);

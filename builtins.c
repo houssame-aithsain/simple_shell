@@ -142,6 +142,7 @@ int _cd(t_container *src)
 		if (!getcwd(src->current_p, sizeof(src->current_p)))
 			perror("getcwd");
 		_create_new_var("PWD", src->current_p, src);
+		_create_new_var("OLDPWD", src->last_p, src);
 		return (3);
 	}
 	return (0);
