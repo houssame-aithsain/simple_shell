@@ -23,7 +23,7 @@ void DisplayedPrompt(void)
 	write(1, "shell$", 7);
 	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
 	write(1, ANSI_COLOR_GRAY, _strlen(ANSI_COLOR_GRAY));
-	write(1, "──🔰 ", 12);
+	write(1, "──👑 ", 12);
 	write(1, "\n", 1);
 	write(1, "╰──{ ", 12);
 	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
