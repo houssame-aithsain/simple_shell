@@ -45,7 +45,6 @@ int ex_and_or(char *str, t_container *src)
 char **__GetExecuteMCmds(t_container *src, int *i)
 {
 	char **mc_arg;
-	int count = 0;
 
 	mc_arg = NULL;
 	src->op = 0;

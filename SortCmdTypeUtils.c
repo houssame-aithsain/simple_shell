@@ -63,7 +63,7 @@ char *check_PATH(t_container *src)
 {
 	char *path, **token, *cmd_path;
 	struct stat file_info;
-	int i = 0, c = -1;
+	int c = -1;
 
 	if (_strcmp(src->path, src->arg[0]))
 	{

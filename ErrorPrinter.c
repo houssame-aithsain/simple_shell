@@ -39,8 +39,6 @@ int is_path(t_container *src)
  */
 void __exit_error(t_container *src, int exit_code, int flag)
 {
-	char *exit;
-
 	src->exit_status = 2;
 	if (flag == 1)
 	{
