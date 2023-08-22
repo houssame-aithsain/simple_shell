@@ -11,15 +11,21 @@
 void DisplayedPrompt(void)
 {
 	write(1, ANSI_COLOR_GRAY, _strlen(ANSI_COLOR_GRAY));
-	write(1, "┌──", 6);
+	write(1, "┌──", 10);
 	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
 	write(1, ANSI_COLOR_CYAN, _strlen(ANSI_COLOR_CYAN));
-	write(1, "simple─shell$", 16);
+	write(1, "simple", 7);
+	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
+	write(1, ANSI_COLOR_GRAY, _strlen(ANSI_COLOR_GRAY));
+	write(1, "──", 7);
+	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
+	write(1, ANSI_COLOR_CYAN, _strlen(ANSI_COLOR_CYAN));
+	write(1, "shell$", 7);
 	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
 	write(1, ANSI_COLOR_GRAY, _strlen(ANSI_COLOR_GRAY));
 	write(1, "──🔰 ", 12);
 	write(1, "\n", 1);
-	write(1, "╰──# ", 12);
+	write(1, "╰──{ ", 12);
 	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
 }
 
