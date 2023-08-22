@@ -29,7 +29,6 @@ void DisplayedPrompt(void)
 	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
 }
 
-
 /**
  * __filename_input - Processes commands from a file and executes them
  * @src: Pointer to the shell container
