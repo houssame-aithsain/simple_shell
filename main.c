@@ -14,7 +14,7 @@ void DisplayedPrompt(void)
 	write(1, "┌──", 6);
 	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
 	write(1, ANSI_COLOR_CYAN, _strlen(ANSI_COLOR_CYAN));
-	write(1, "simple_shell$", 14);
+	write(1, "simple─shell$", 16);
 	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
 	write(1, ANSI_COLOR_GRAY, _strlen(ANSI_COLOR_GRAY));
 	write(1, "──🔰 ", 12);
@@ -66,7 +66,7 @@ int __filename_input(t_container *src, char *str)
 		_free(src->alias.name, NULL, 1);
 		_free(src->alias.value, NULL, 1);
 		_free(src->env, NULL, 1);
-		exit(0);
+		exit(src->exit_status);
 	}
 	_free(tmp, NULL, 1);
 	return (-1);
