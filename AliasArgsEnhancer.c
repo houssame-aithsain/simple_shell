@@ -1,6 +1,28 @@
 #include "simple_shell.h"
 
 /**
+ * ReLinkAliasName - Relink command name using alias value
+ * @src: Pointer to the container struct
+ *
+ * Searches for the command name in the alias table and replaces it with
+ * the associated alias value in the argument array of the container.
+ */
+void	ReLinkAliasName(t_container *src)
+{
+	int i = -1;
+
+	while (src->alias.name && src->alias.name[++i])
+	{
+		if (!_strcmp(src->alias.name[i], src->arg[0]))
+		{
+			free(src->arg[0]);
+			src->arg[0] = _strdup(src->alias.value[i]);
+			i = -1;
+		}
+	}
+}
+
+/**
  * AliasLineEnhancer - Expands command with alias substitution.
  * @src: Container holding alias data and arguments.
  * Return: 0 on success, -15 if no alias found.
@@ -34,7 +56,9 @@ int AliasLineEnhancer(t_container *src)
 	src->arg = NULL;
 	src->arg = args;
 	free(src->path);
+	ReLinkAliasName(src);
 	src->path = _strdup(src->arg[0]);
+	cmd_extracter(src->arg[0]);
 	return (0);
 }
 

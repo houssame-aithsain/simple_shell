@@ -2,20 +2,20 @@
 
 /**
  * get_HOME_dir - Retrieves the value of the HOME environment variable
- *
+ * @src: the src.
  * Return: A pointer to the value of the HOME environment variable,
  *         or NULL if it is not found.
  */
-char *get_HOME_dir(void)
+char *get_HOME_dir(t_container *src)
 {
 	char *path;
 	int i = 0;
 
 	path = NULL;
-	for (; environ[i]; i++)
+	for (; src->env[i]; i++)
 	{
-		if (!_strncmp("HOME", environ[i], 4))
-			path = _strdup(environ[i]);
+		if (!_strncmp("HOME", src->env[i], 4))
+			path = _strdup(src->env[i]);
 	}
 	if (!path)
 		return (NULL);

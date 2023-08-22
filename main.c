@@ -19,7 +19,7 @@ void DisplayedPrompt(void)
 	write(1, ANSI_COLOR_GRAY, _strlen(ANSI_COLOR_GRAY));
 	write(1, "──🔰 ", 12);
 	write(1, "\n", 1);
-	write(1, "╰──💠 ", 15);
+	write(1, "╰──# ", 12);
 	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
 }
 
@@ -33,22 +33,24 @@ void DisplayedPrompt(void)
  * by line.
  * Each command line is processed and executed. The shell container's state may
  * change as a result of executing commands from the file.
+ * Return: -1.
  */
-void __filename_input(t_container *src, char *str)
+int __filename_input(t_container *src, char *str)
 {
 	int fd = -1;
 	char **tmp;
 	DIR *dir;
+	struct stat file_stat;
 
 	tmp = strtow(str, ' ');
 	__new_line_sanitizer(tmp[0]);
 	dir = opendir(tmp[0]);
-	if (_strcmp(tmp[0], ".") && _strcmp(tmp[0], "..")
-		&& __fd_status(tmp[0]) && !dir)
+	if (_strcmp(tmp[0], ".") && _strcmp(tmp[0], "..") && !dir)
 		fd = open(tmp[0], O_RDONLY);
 	if (dir)
 		closedir(dir);
-	if (fd > 0)
+	if (fd > 0 && !stat(tmp[0], &file_stat)
+		&& !access(tmp[0], R_OK))
 	{
 		_free(tmp, NULL, 1);
 		__main_free(src, FD);
@@ -67,6 +69,7 @@ void __filename_input(t_container *src, char *str)
 		exit(0);
 	}
 	_free(tmp, NULL, 1);
+	return (-1);
 }
 
 /**
@@ -97,7 +100,7 @@ int main(int argc, char **argv)
 		if (!src.mainLine)
 		{
 			__main_free(&src, MAIN);
-			exit(0);
+			exit(src.exit_status);
 		}
 		split_cmd_line(src.mainLine, &src);
 		free(src.mainLine);

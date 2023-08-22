@@ -54,6 +54,7 @@ typedef struct alias
  * struct container - Holds various information related to the shell
  * @splitedLines: Array to hold split command lines
  * @mc_arg: Array for multiple command arguments
+ * @and_cmds: and_cmds.
  * @arg: Array to hold command arguments
  * @env: Array to hold environment variables
  * @cmd_path: Path of the current command being executed
@@ -76,6 +77,7 @@ typedef struct alias
 typedef struct container
 {
 	char	**splitedLines;
+	char	**and_cmds;
 	char	**mc_arg;
 	char	**arg;
 	char	**env;
@@ -102,7 +104,7 @@ void __var_init(t_container *src, int argc, char **argv);
 void __main_free(t_container *src, int flag);
 int __fd_status(char *filename);
 void __new_line_sanitizer(char *str);
-void __filename_input(t_container *src, char *line);
+int __filename_input(t_container *src, char *str);
 /*-------------SortCmdTypeUtils---------*/
 int __ifEmptyLine(char *line);
 int	__CmdOrBuiltin(t_container *src);
@@ -138,7 +140,7 @@ int		_atoi(char *s);
 int		builtins(t_container *src);
 int		_strcmp(char *s1, char *s2);
 char	*_strdup(char *str);
-char	*get_HOME_dir(void);
+char	*get_HOME_dir(t_container *src);
 int		_env(t_container *src);
 int		_setenv(t_container *src);
 int		_unsetenv(t_container *src);
@@ -154,7 +156,7 @@ char	*__strjoin(char *s1, char *s2);
 int		if_s_quote(char *arg);
 int		__is_alias_of_x(char *var);
 int		AliasLineEnhancer(t_container *src);
-void	_putnbr(int number);
+void	_putnbr(int number, int fd);
 /*-------------print-errors----------*/
 void    _cd_error(t_container *src);
 void	_cmd_not_found(t_container *src, int flag);
@@ -174,7 +176,13 @@ char *get_var_value(char *str, char **env);
 char *SortStrType(char *str, t_container *src);
 void _NPC_remover(t_container *src);
 int GetVarLent_str(char *str);
-
+int __exit(t_container *src);
 int is_path(t_container *src);
 void	__free_all(t_container *src);
+int _comments_sanitizer(char *line);
+void __exit_error(t_container *src, int exit_code, int flag);
+int is_alpha(char *str);
+char *GetDIrPath(char **path, t_container *src);
+char *get_OLDPWD_dir(void);
+
 #endif/*SIMPLE_SHELL*/

@@ -23,42 +23,42 @@ size_t _strlen(char *s)
 /**
  * _printnbr - Prints a single digit number to the standard error stream
  * @num: Number to print
- *
+ * @fd: fd.
  * Prints a single digit @num to the standard error stream using write().
  */
-void _printnbr(char num)
+void _printnbr(char num, int fd)
 {
-	write(2, &num, 1);
+	write(fd, &num, 1);
 }
 
 /**
  * _putnbr - Prints an integer to the standard error stream
  * @number: Integer to print
- *
+ * @fd: fd.
  * Prints the integer @number to the standard error stream using _printnbr().
  */
-void _putnbr(int number)
+void _putnbr(int number, int fd)
 {
 	int num;
 
 	num = number;
 	if (num >= 0 && num <= 9)
-		_printnbr((num) + '0');
+		_printnbr((num) + '0', fd);
 	if (num == -2147483648)
 	{
-		_printnbr('-');
-		_printnbr((2) + '0');
+		_printnbr('-', fd);
+		_printnbr((2) + '0', fd);
 		num = 147483648;
 	}
 	if (num < 0)
 	{
-		_printnbr('-');
-		_putnbr(num * -1);
+		_printnbr('-', fd);
+		_putnbr(num * -1, fd);
 	}
 	else if (num > 9)
 	{
-		_putnbr(num / 10);
-		_putnbr(num % 10);
+		_putnbr(num / 10, fd);
+		_putnbr(num % 10, fd);
 	}
 }
 
@@ -77,10 +77,11 @@ void __free_all(t_container *src)
 	if (!src->is_fd)
 		free(src->mainLine);
 	free(src->cmd_path);
-	_free(src->splitedLines, NULL, 1);
 	_free(src->mc_arg, NULL, 1);
-	_free(src->alias.name, NULL, 1);
+	_free(src->splitedLines, NULL, 1);
 	_free(src->alias.value, NULL, 1);
+	_free(src->alias.name, NULL, 1);
 	_free(src->arg, NULL, 1);
 	_free(src->env, NULL, 1);
+	_free(src->and_cmds, NULL, 1);
 }

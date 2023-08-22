@@ -1,6 +1,39 @@
 #include "simple_shell.h"
 
 /**
+ * ex_and_or - Execute AND/OR logic for multiple commands
+ * @str: Input string containing multiple commands
+ * @src: Pointer to the container struct
+ *
+ * Executes a sequence of commands separated by '&'
+ * characters. Each command
+ * is evaluated using SortCmdType, and if an exit status
+ * other than 0 is
+ * encountered, the function returns with an appropriate exit code.
+ *
+ * Return: 0 on success, -111 on failure due to exit status
+ */
+int ex_and_or(char *str, t_container *src)
+{
+	int count = 0;
+
+	src->and_cmds = strtow(str, '&');
+	for (; src->and_cmds && src->and_cmds[count]; count++)
+	{
+		if (_comments_sanitizer(src->and_cmds[count]))
+			continue;
+		SortCmdType(src->and_cmds[count], src);
+		if (src->exit_status)
+		{
+			_free(src->and_cmds, NULL, 1);
+			return (-111);
+		}
+	}
+	_free(src->and_cmds, NULL, 1);
+	return (0);
+}
+
+/**
  * __GetExecuteMCmds - Retrieves and classifies multiple command operators
  * @src: Shell container
  * @i: Pointer to the current position in the input line
@@ -12,20 +45,15 @@
 char **__GetExecuteMCmds(t_container *src, int *i)
 {
 	char **mc_arg;
+	int count = 0;
 
 	mc_arg = NULL;
+	src->op = 0;
 	while (src->line[*i])
 	{
-		if (!_strncmp(*i + src->line, "&&", 2))
-		{
-			mc_arg = strtow(src->line, '&');
-			src->op = AND_CMDS;
-			break;
-		}
 		if (!_strncmp(*i + src->line, "||", 2))
 		{
 			mc_arg = strtow(src->line, '|');
-			src->op = OR_CMDS;
 			break;
 		}
 		(*i)++;
@@ -41,23 +69,25 @@ char **__GetExecuteMCmds(t_container *src, int *i)
  * connected with logical operators. Sets the 'op' field in @src accordingly.
  * Return: 0.
  */
-int	is_multiple_cmds(t_container *src)
+int is_multiple_cmds(t_container *src)
 {
 	int i = 0, p = 0;
 
-	src->op = 0;
+	src->and_cmds = NULL;
 	src->mc_arg = __GetExecuteMCmds(src, &i);
 	if (!src->line[i])
-		SortCmdType(src->line, src);
+		ex_and_or(src->line, src);
 	else
 	{
 		for (; src->mc_arg[p]; p++)
 		{
-			if (SortCmdType(src->mc_arg[p], src))
+			if (ex_and_or(src->mc_arg[p], src))
+				continue;
+			else
 				break;
 		}
-		_free(src->mc_arg, NULL, 1);
 	}
+	_free(src->mc_arg, NULL, 1);
 	return (0);
 }
 
@@ -74,10 +104,13 @@ int _comments_sanitizer(char *line)
 
 	while (line[++i])
 	{
-		if (line && line[i] == '#')
-			line[i] = 0;
+		if (line[i] == 32 && line[i + 1] == '#')
+		{
+			line[i + 1] = 0;
+			break;
+		}
 	}
-	if (!line[0])
+	if (!line[0] || line[0] == '#')
 		return (-77);
 	return (0);
 }
@@ -93,8 +126,6 @@ void split_cmd_line(char *line, t_container *src)
 {
 	int i = 0;
 
-	if (_comments_sanitizer(line))
-		return;
 	src->splitedLines = strtow(line, ';');
 	while (src->splitedLines[i])
 	{

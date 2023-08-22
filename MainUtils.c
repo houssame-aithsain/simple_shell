@@ -53,6 +53,8 @@ void _NPC_remover(t_container *src)
  */
 void __var_init(t_container *src, int argc, char **argv)
 {
+	char *old;
+
 	(void)argc;
 	src->is_fd = 0;
 	src->exit_status = 0;
@@ -62,7 +64,12 @@ void __var_init(t_container *src, int argc, char **argv)
 	src->alias.value = NULL;
 	if (!getcwd(src->PWD, sizeof(src->PWD)))
 		perror("getcwd");
-	_strcpy(src->OLDPWD, src->PWD);
+	old = get_OLDPWD_dir();
+	if (old)
+		_strcpy(src->OLDPWD, old);
+	else
+		_strcpy(src->OLDPWD, src->PWD);
+	free(old);
 	set_env(src);
 }
 

@@ -22,9 +22,6 @@ int __is_cmd_builtin(t_container *src, int flag)
 			return (0);
 		return (-1);
 	}
-	if ((!src->exit_status && src->op == OR_CMDS)
-		|| (src->exit_status && src->op == AND_CMDS))
-		return (0);
 	return (-1);
 }
 
@@ -65,23 +62,29 @@ char *get_join_cmd_path(char *token, char *cmd)
 char *check_PATH(t_container *src)
 {
 	char *path, **token, *cmd_path;
+	struct stat file_info;
 	int i = 0, c = -1;
 
 	if (_strcmp(src->path, src->arg[0]))
 	{
+		if (stat(src->path, &file_info))
+			return (NULL);
 		if (!access(src->path, F_OK))
+		{
+			free(src->arg[0]);
+			src->arg[0] = _strdup(src->path);
 			return (_strdup(src->path));
+		}
 		else
 			return (NULL);
 	}
-	path = NULL;
-	for (; src->env[i]; i++)
-	{
-		if (!_strncmp("PATH", src->env[i], 4))
-			path = _strdup(src->env[i]);
-	}
-	if (!path)
+	if (!GetDIrPath(&path, src))
 		return (NULL);
+	if (!_strcmp(path, "PATH="))
+	{
+		free(path);
+		return (NULL);
+	}
 	_strcpy(path, path + 5);
 	token = strtow(path, ':');
 	while (token[++c])

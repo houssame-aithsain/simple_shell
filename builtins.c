@@ -3,8 +3,9 @@
 /**
  * __exit - Handles the 'exit' command.
  * @src: Container holding command and argument data.
+ * Return: 1 or 0.
  */
-void __exit(t_container *src)
+int __exit(t_container *src)
 {
 	if (!_strcmp(src->path, "exit"))
 	{
@@ -13,15 +14,27 @@ void __exit(t_container *src)
 		if (src->arg[1])
 		{
 			exit_code = _atoi(src->arg[1]);
+			if (exit_code < 0)
+			{
+				__exit_error(src, exit_code, 0);
+				return (1);
+			}
+			if (!is_alpha(src->arg[1]) && !is_alpha(1 + src->arg[1]))
+			{
+				__exit_error(src, exit_code, 1);
+				return (1);
+			}
 			__free_all(src);
 			exit(exit_code);
 		}
 		else
 		{
 			__free_all(src);
-			exit(0);
+			exit(src->exit_status);
 		}
+		return (1);
 	}
+	return (0);
 }
 
 /**
@@ -133,10 +146,13 @@ int _cd(t_container *src)
 		}
 		if (!src->arg[1])
 		{
-			HOME = get_HOME_dir();
-			if (chdir(HOME))
-				perror("chdir");
-			free(HOME);
+			HOME = get_HOME_dir(src);
+			if (HOME)
+			{
+				if (chdir(HOME))
+					perror("chdir");
+				free(HOME);
+			}
 		}
 		_strcpy(src->OLDPWD, src->PWD);
 		if (!getcwd(src->PWD, sizeof(src->PWD)))
@@ -155,9 +171,8 @@ int _cd(t_container *src)
  */
 int builtins(t_container *src)
 {
-	__exit(src);
-	if (_strcmp(src->path, src->arg[0]))
-		return (0);
+	if (__exit(src))
+		return (2);
 	if (_unsetenv(src) || _cd(src) || _env(src) || _alias(src) || _setenv(src))
 		return (1);
 	return (0);
