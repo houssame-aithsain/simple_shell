@@ -1,6 +1,34 @@
 #include "simple_shell.h"
 
 /**
+ * is_path - Checks if a given command includes a path.
+ * @src: Container holding command and argument data.
+ * Return: Result code based on the presence of a path in the command.
+ */
+int is_path(t_container *src)
+{
+	int i = -1;
+	DIR *dir;
+
+	while (src->arg[0] && src->arg[0][++i])
+	{
+		if (src->arg[0][i] == '/')
+		{
+			dir = opendir(src->arg[0]);
+			if (dir)
+			{
+				closedir(dir);
+				_cmd_not_found(src, 1);
+				return (0);
+			}
+			else
+				return (-8);
+		}
+	}
+	return (-8);
+}
+
+/**
  * GetDIrPath - Get the value of the PATH environment variable
  * @path: Pointer to store the path value
  * @src: Pointer to the container struct

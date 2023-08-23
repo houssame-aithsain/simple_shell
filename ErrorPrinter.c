@@ -1,31 +1,21 @@
 #include "simple_shell.h"
 
 /**
- * is_path - Checks if a given command includes a path.
- * @src: Container holding command and argument data.
- * Return: Result code based on the presence of a path in the command.
+ * _fileNameError - Display error message for file opening failure
+ * @src: Pointer to the container struct
+ * @fileName: Name of the file that couldn't be opened
+ *
+ * This function displays an error message indicating that the specified
+ * file couldn't be opened. It then exits the program with an exit status
+ * of 127.
  */
-int is_path(t_container *src)
+void _fileNameError(t_container *src, char *fileName)
 {
-	int i = -1;
-	DIR *dir;
-
-	while (src->arg[0] && src->arg[0][++i])
-	{
-		if (src->arg[0][i] == '/')
-		{
-			dir = opendir(src->arg[0]);
-			if (dir)
-			{
-				closedir(dir);
-				_cmd_not_found(src, 1);
-				return (0);
-			}
-			else
-				return (-8);
-		}
-	}
-	return (-8);
+	write(2, src->p_name, _strlen(src->p_name));
+	write(2, ": 0: Can't open ", 17);
+	write(2, fileName, _strlen(fileName));
+	write(2, "\n", 1);
+	exit(127);
 }
 
 /**

@@ -85,14 +85,9 @@ void __main_free(t_container *src, int flag)
 {
 	if (flag == FD)
 	{
-		free(src->line);
-		free(src->path);
-		free(src->mainLine);
-		free(src->cmd_path);
-		_free(src->splitedLines, NULL, 1);
-		_free(src->mc_arg, NULL, 1);
-		_free(src->arg, NULL, 1);
-		_free(src->and_cmds, NULL, 1);
+		_free(src->alias.name, NULL, 1);
+		_free(src->alias.value, NULL, 1);
+		_free(src->env, NULL, 1);
 		return;
 	}
 	free(src->mainLine);

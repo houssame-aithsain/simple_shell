@@ -104,7 +104,7 @@ void __var_init(t_container *src, int argc, char **argv);
 void __main_free(t_container *src, int flag);
 int __fd_status(char *filename);
 void __new_line_sanitizer(char *str);
-void __filename_input(t_container *src, char *fileName);
+int __filename_input(t_container *src, char *fileName);
 /*-------------SortCmdTypeUtils---------*/
 int __ifEmptyLine(char *line);
 int	__CmdOrBuiltin(t_container *src);
@@ -184,5 +184,5 @@ void __exit_error(t_container *src, int exit_code, int flag);
 int is_alpha(char *str);
 char *GetDIrPath(char **path, t_container *src);
 char *get_OLDPWD_dir(void);
-
+void _fileNameError(t_container *src, char *fileName);
 #endif/*SIMPLE_SHELL*/

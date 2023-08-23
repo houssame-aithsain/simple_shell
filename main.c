@@ -43,7 +43,7 @@ void DisplayedPrompt(t_container *src)
  * change as a result of executing commands from the file.
  * Return: -1.
  */
-void __filename_input(t_container *src, char *fileName)
+int __filename_input(t_container *src, char *fileName)
 {
 	struct stat file_info;
 	int fd;
@@ -52,15 +52,11 @@ void __filename_input(t_container *src, char *fileName)
 	if (fd < 0)
 	{
 		if (errno == ENOENT)
-		{
-			write(2, src->p_name, _strlen(src->p_name));
-			write(2, ": 0: Can't open ", 17);
-			write(2, fileName, _strlen(fileName));
-			write(2, "\n", 1);
-			exit(127);
-		}
+			_fileNameError(src, fileName);
 		else if (errno == EACCES)
 			exit(126);
+		else
+			return (1);
 	}
 	if (fd > 0)
 	{
@@ -68,22 +64,21 @@ void __filename_input(t_container *src, char *fileName)
 		if (S_ISREG(file_info.st_mode)
 			&& !(file_info.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)))
 		{
-			_free(src->arg, NULL, 1);
 			src->arg = NULL;
 			src->fdLine = NULL;
 			while ((src->fdLine = _getline(fd)))
 			{
 				src->is_fd = 1;
+				src->arg = NULL;
 				split_cmd_line(src->fdLine, src);
 				free(src->fdLine);
 			}
 			close(fd);
-			_free(src->alias.name, NULL, 1);
-			_free(src->alias.value, NULL, 1);
-			_free(src->env, NULL, 1);
+			__main_free(src, FD);
 			exit(src->exit_status);
 		}
 	}
+	return (0);
 }
 
 /**
@@ -105,7 +100,13 @@ int main(int argc, char **argv)
 
 	__var_init(&src, argc, argv);
 	if (argc == 2)
-		__filename_input(&src, argv[1]);
+	{
+		if (__filename_input(&src, argv[1]))
+		{
+			_free(src.env, NULL, 1);
+			return (EXIT_FAILURE);
+		}
+	}
 	while (TRUE)
 	{
 		src.mainLine = NULL;
