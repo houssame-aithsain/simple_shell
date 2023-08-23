@@ -58,23 +58,20 @@ int __filename_input(t_container *src, char *fileName)
 		else
 			return (1);
 	}
-	if (fd > 0)
+	if (fd > 0 && !fstat(fd, &file_info))
 	{
-		if (!stat(fileName, &file_info))
+		src->arg = NULL;
+		src->fdLine = NULL;
+		while ((src->fdLine = _getline(fd)))
 		{
+			src->is_fd = 1;
 			src->arg = NULL;
-			src->fdLine = NULL;
-			while ((src->fdLine = _getline(fd)))
-			{
-				src->is_fd = 1;
-				src->arg = NULL;
-				split_cmd_line(src->fdLine, src);
-				free(src->fdLine);
-			}
-			close(fd);
-			__main_free(src, FD);
-			exit(src->exit_status);
+			split_cmd_line(src->fdLine, src);
+			free(src->fdLine);
 		}
+		close(fd);
+		__main_free(src, FD);
+		exit(src->exit_status);
 	}
 	return (0);
 }
