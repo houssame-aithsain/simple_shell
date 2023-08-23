@@ -18,7 +18,10 @@ char *GetDIrPath(char **path, t_container *src)
 		if (!_strncmp("PATH", src->env[i], 4))
 		{
 			*path = _strdup(src->env[i]);
-			return (*path);
+			{
+				_strcpy(*path, *path + 5);
+				return (*path);
+			}
 		}
 	}
 	*path = NULL;

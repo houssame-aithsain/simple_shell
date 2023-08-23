@@ -61,13 +61,14 @@ char *get_join_cmd_path(char *token, char *cmd)
  */
 char *check_PATH(t_container *src)
 {
-	char *path, **token, *cmd_path;
+	char *path, *cmd_path;
 	struct stat file_info;
 	int c = -1;
 
+	file_info.st_mode = 0;
+	stat(src->path, &file_info);
 	if (_strcmp(src->path, src->arg[0]))
 	{
-		stat(src->path, &file_info);
 		if (S_ISREG(file_info.st_mode) && !(file_info.st_mode
 			& (S_IXUSR | S_IXGRP | S_IXOTH)))
 			return (NULL);
@@ -87,19 +88,18 @@ char *check_PATH(t_container *src)
 		free(path);
 		return (NULL);
 	}
-	_strcpy(path, path + 5);
-	token = strtow(path, ':');
-	while (token[++c])
+	src->tokens = strtow(5 + path, ':');
+	while (src->tokens[++c])
 	{
-		cmd_path = get_join_cmd_path(token[c], src->arg[0]);
+		cmd_path = get_join_cmd_path(src->tokens[c], src->arg[0]);
 		if (!access(cmd_path, F_OK))
 		{
-			_free(token, path, -1);
+			_free(src->tokens, path, -1);
 			return (cmd_path);
 		}
 		free(cmd_path);
 	}
-	_free(token, path, -1);
+	_free(src->tokens, path, -1);
 	return (NULL);
 }
 

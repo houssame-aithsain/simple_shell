@@ -56,7 +56,6 @@ void __var_init(t_container *src, int argc, char **argv)
 	char *old;
 
 	(void)argc;
-	src->arg = NULL;
 	src->is_fd = 0;
 	src->exit_status = 0;
 	src->cmd_counter = 0;
