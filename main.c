@@ -119,8 +119,7 @@ int main(int argc, char **argv)
 	if (argc == 2)
 	{
 		fd = open(argv[1], O_RDONLY);
-		if (__filename_input(argv, fd))
-			return (EXIT_FAILURE);
+		__filename_input(argv, fd);
 		__var_init(&src, argc, argv);
 		__(&src, fd, argv[1]);
 	}
