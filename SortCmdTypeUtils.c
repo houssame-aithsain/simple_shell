@@ -65,7 +65,6 @@ char *check_PATH(t_container *src)
 	struct stat file_info;
 	int c = -1;
 
-	file_info.st_mode = 0;
 	stat(src->path, &file_info);
 	if (_strcmp(src->path, src->arg[0]))
 	{
