@@ -46,21 +46,18 @@ void DisplayedPrompt(t_container *src)
 int __filename_input(t_container *src, char *str)
 {
 	int fd = -1;
-	char **tmp;
-	DIR *dir;
-	struct stat file_stat;
+	char *tmp;
+	struct stat file_info;
 
-	tmp = strtow(str, ' ');
-	__new_line_sanitizer(tmp[0]);
-	dir = opendir(tmp[0]);
-	if (_strcmp(tmp[0], ".") && _strcmp(tmp[0], "..") && !dir)
-		fd = open(tmp[0], O_RDONLY);
-	if (dir)
-		closedir(dir);
-	if (fd > 0 && !stat(tmp[0], &file_stat)
-		&& !access(tmp[0], R_OK))
+	tmp = _strdup(str);
+	__new_line_sanitizer(tmp);
+	stat(tmp, &file_info);
+	if (_strcmp(tmp, ".") && _strcmp(tmp, ".."))
+		fd = open(tmp, O_RDONLY);
+	if (fd > 0 && S_ISREG(file_info.st_mode)
+		&& !(file_info.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)))
 	{
-		_free(tmp, NULL, 1);
+		_free(NULL, tmp, 0);
 		__main_free(src, FD);
 		src->arg = NULL;
 		src->fdLine = NULL;
@@ -76,7 +73,7 @@ int __filename_input(t_container *src, char *str)
 		_free(src->env, NULL, 1);
 		exit(src->exit_status);
 	}
-	_free(tmp, NULL, 1);
+	_free(NULL, tmp, 0);
 	return (-1);
 }
 
