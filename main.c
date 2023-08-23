@@ -33,44 +33,9 @@ void DisplayedPrompt(t_container *src)
 }
 
 /**
- * __ - Process file content if it's a regular non-executable file
- * @src: Pointer to the container struct
- * @fd: File descriptor of the file to process
- * @fileName: Name of the file to process
- *
- * This function checks if the given file is a regular non-executable file.
- * If so, it reads the content line by line using _getline, splits the lines
- * into arguments, and processes each command line. After processing, it frees
- * resources and exits with the current exit status.
- */
-void __(t_container *src, int fd, char *fileName)
-{
-	struct stat file_info;
-
-	stat(fileName, &file_info);
-	if (S_ISREG(file_info.st_mode)
-		&& !(file_info.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)))
-	{
-		src->fdLine = NULL;
-		while ((src->fdLine = _getline(fd)))
-		{
-			src->is_fd = 1;
-			src->arg = NULL;
-			split_cmd_line(src->fdLine, src);
-			free(src->fdLine);
-		}
-		close(fd);
-		_free(src->alias.name, NULL, 1);
-		_free(src->alias.value, NULL, 1);
-		_free(src->env, NULL, 1);
-		exit(src->exit_status);
-	}
-}
-
-/**
  * __filename_input - Processes commands from a file and executes them
- * @argv: Pointer to the shell container
- * @fd: String containing the filename to read commands from
+ * @src: Pointer to the shell container
+ * @fileName: String containing the filename to read commands from
  *
  * This function opens the specified file and reads commands from it line
  * by line.
@@ -78,24 +43,47 @@ void __(t_container *src, int fd, char *fileName)
  * change as a result of executing commands from the file.
  * Return: -1.
  */
-int __filename_input(char **argv, int fd)
+void __filename_input(t_container *src, char *fileName)
 {
+	struct stat file_info;
+	int fd;
+
+	fd = open(fileName, O_RDONLY);
 	if (fd < 0)
 	{
 		if (errno == ENOENT)
 		{
-			write(2, argv[0], _strlen(argv[0]));
+			write(2, src->p_name, _strlen(src->p_name));
 			write(2, ": 0: Can't open ", 17);
-			write(2, argv[1], _strlen(argv[1]));
+			write(2, fileName, _strlen(fileName));
 			write(2, "\n", 1);
 			exit(127);
 		}
 		else if (errno == EACCES)
 			exit(126);
-		else
-			return (1);
 	}
-	return (0);
+	if (fd > 0)
+	{
+		stat(fileName, &file_info);
+		if (S_ISREG(file_info.st_mode)
+			&& !(file_info.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)))
+		{
+			_free(src->arg, NULL, 1);
+			src->arg = NULL;
+			src->fdLine = NULL;
+			while ((src->fdLine = _getline(fd)))
+			{
+				src->is_fd = 1;
+				split_cmd_line(src->fdLine, src);
+				free(src->fdLine);
+			}
+			close(fd);
+			_free(src->alias.name, NULL, 1);
+			_free(src->alias.value, NULL, 1);
+			_free(src->env, NULL, 1);
+			exit(src->exit_status);
+		}
+	}
 }
 
 /**
@@ -114,16 +102,10 @@ int __filename_input(char **argv, int fd)
 int main(int argc, char **argv)
 {
 	t_container src;
-	int fd;
 
-	if (argc == 2)
-	{
-		fd = open(argv[1], O_RDONLY);
-		__filename_input(argv, fd);
-		__var_init(&src, argc, argv);
-		__(&src, fd, argv[1]);
-	}
 	__var_init(&src, argc, argv);
+	if (argc == 2)
+		__filename_input(&src, argv[1]);
 	while (TRUE)
 	{
 		src.mainLine = NULL;

@@ -104,7 +104,7 @@ void __var_init(t_container *src, int argc, char **argv);
 void __main_free(t_container *src, int flag);
 int __fd_status(char *filename);
 void __new_line_sanitizer(char *str);
-int __filename_input(char **argv, int fd);
+void __filename_input(t_container *src, char *fileName);
 /*-------------SortCmdTypeUtils---------*/
 int __ifEmptyLine(char *line);
 int	__CmdOrBuiltin(t_container *src);
