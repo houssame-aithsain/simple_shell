@@ -12,10 +12,13 @@
 void _fileNameError(t_container *src, char *fileName)
 {
 	write(2, src->p_name, _strlen(src->p_name));
-	write(2, ": 0: Can't open ", 17);
+	write(2, ": ", 2);
+	_putnbr(src->cmd_counter, 2);
+	write(2, ": cannot open ", 14);
 	write(2, fileName, _strlen(fileName));
-	write(2, "\n", 1);
-	exit(127);
+	write(2, ": No such file\n", 15);
+	__main_free(src, FD);
+	exit(2);
 }
 
 /**
