@@ -46,7 +46,7 @@ void DisplayedPrompt(t_container *src)
 int __filename_input(t_container *src, char *fileName)
 {
 	struct stat file_info;
-	int fd;
+	int fd, size;
 
 	fd = open(fileName, O_RDONLY);
 	if (fd < 0)
@@ -60,6 +60,9 @@ int __filename_input(t_container *src, char *fileName)
 	}
 	if (fd > 0 && !fstat(fd, &file_info))
 	{
+		size = file_info.st_size;
+		if (size < 2)
+			return (0);
 		src->arg = NULL;
 		src->fdLine = NULL;
 		while ((src->fdLine = _getline(fd)))
@@ -102,6 +105,8 @@ int main(int argc, char **argv, char **env)
 			_free(src.env, NULL, 1);
 			return (EXIT_FAILURE);
 		}
+		else
+			return (EXIT_SUCCESS);
 	}
 	while (TRUE)
 	{
