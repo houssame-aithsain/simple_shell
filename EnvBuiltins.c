@@ -117,7 +117,7 @@ int _env(t_container *src)
 			return (0);
 		for (; src->env[i]; i++)
 		{
-			write(1, src->env[i], strlen(src->env[i]));
+			write(1, src->env[i], _strlen(src->env[i]));
 			write(1, "\n", 1);
 		}
 		return (4);
