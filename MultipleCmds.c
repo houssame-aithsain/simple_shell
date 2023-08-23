@@ -126,9 +126,9 @@ void split_cmd_line(char *line, t_container *src)
 	int i = 0;
 
 	src->splitedLines = strtow(line, ';');
+	src->cmd_counter++;
 	while (src->splitedLines[i])
 	{
-		src->cmd_counter++;
 		src->line = _strdup(src->splitedLines[i]);
 		is_multiple_cmds(src);
 		free(src->line);
