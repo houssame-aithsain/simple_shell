@@ -48,15 +48,17 @@ void _NPC_remover(t_container *src)
  * @src: Shell container
  * @argc: Number of command-line arguments
  * @argv: Command-line arguments array
+ * @env: ......
  *
  * Initializes fields in @src with default values.
  */
-void __var_init(t_container *src, int argc, char **argv)
+void __var_init(t_container *src, int argc, char **argv,  char **env)
 {
 	char *old;
 
 	(void)argc;
 	src->is_fd = 0;
+	src->envarg = env;
 	src->exit_status = 0;
 	src->cmd_counter = 0;
 	src->p_name = argv[0];
@@ -64,13 +66,13 @@ void __var_init(t_container *src, int argc, char **argv)
 	src->alias.value = NULL;
 	if (!getcwd(src->PWD, sizeof(src->PWD)))
 		perror("getcwd");
-	old = get_OLDPWD_dir();
+	set_env(src);
+	old = get_OLDPWD_dir(src);
 	if (old)
 		_strcpy(src->OLDPWD, old);
 	else
 		_strcpy(src->OLDPWD, src->PWD);
 	free(old);
-	set_env(src);
 }
 
 

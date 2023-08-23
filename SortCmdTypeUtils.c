@@ -65,6 +65,7 @@ char *check_PATH(t_container *src)
 	struct stat file_info;
 	int c = -1;
 
+	file_info.st_mode = 0;
 	stat(src->path, &file_info);
 	if (_strcmp(src->path, src->arg[0]))
 	{
@@ -87,8 +88,7 @@ char *check_PATH(t_container *src)
 		free(path);
 		return (NULL);
 	}
-	_strcpy(path, path + 5);
-	token = strtow(path, ':');
+	token = strtow(5 + path, ':');
 	while (token[++c])
 	{
 		cmd_path = get_join_cmd_path(token[c], src->arg[0]);

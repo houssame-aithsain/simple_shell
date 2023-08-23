@@ -75,20 +75,20 @@ int is_alpha(char *str)
 
 /**
  * get_OLDPWD_dir - Retrieves the value of the OLDPWD environment variable
- *
+ * @src: ....
  * Return: A pointer to the value of the OLDPWD environment variable,
  *         or NULL if it is not found.
  */
-char *get_OLDPWD_dir(void)
+char *get_OLDPWD_dir(t_container *src)
 {
 	char *path;
 	int i = 0;
 
 	path = NULL;
-	for (; environ[i]; i++)
+	for (; src->env[i]; i++)
 	{
-		if (!_strncmp("OLDPWD", environ[i], 6))
-			path = _strdup(environ[i]);
+		if (!_strncmp("OLDPWD", src->env[i], 6))
+			path = _strdup(src->env[i]);
 	}
 	if (!path)
 		return (NULL);

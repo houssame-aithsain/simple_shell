@@ -85,6 +85,7 @@ int __filename_input(t_container *src, char *fileName)
  * main - Simple shell main function
  * @argc: Number of command-line arguments
  * @argv: Array of command-line argument strings
+ * @env: .....
  * This function implements a simple shell. It repeatedly
  * prompts the user for input,
  * attempts to execute the provided command using the SortCmdType
@@ -94,11 +95,11 @@ int __filename_input(t_container *src, char *fileName)
  * the input buffer.
  * Return: .....
  */
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **env)
 {
 	t_container src;
 
-	__var_init(&src, argc, argv);
+	__var_init(&src, argc, argv, env);
 	if (argc == 2)
 	{
 		if (__filename_input(&src, argv[1]))

@@ -37,8 +37,6 @@
 #  define BUFFER_SIZE 30
 # endif
 
-extern char **environ;
-
 /**
  * struct alias - Holds alias information
  * @name: Array of alias names
@@ -73,12 +71,14 @@ typedef struct alias
  * @op: Operator code for command chaining
  * @is_fd: Flag to indicate if processing a file descriptor
  * @alias: Structure to hold alias information
+ * @envarg: .......
  */
 typedef struct container
 {
 	char	**splitedLines;
 	char	**and_cmds;
 	char	**mc_arg;
+	char	**envarg;
 	char	**arg;
 	char	**env;
 	char	*cmd_path;
@@ -100,7 +100,7 @@ typedef struct container
 } t_container;
 
 /*-------------Main-Utils---------------*/
-void __var_init(t_container *src, int argc, char **argv);
+void __var_init(t_container *src, int argc, char **argv, char **env);
 void __main_free(t_container *src, int flag);
 int __fd_status(char *filename);
 void __new_line_sanitizer(char *str);
@@ -183,6 +183,6 @@ int _comments_sanitizer(char *line);
 void __exit_error(t_container *src, int exit_code, int flag);
 int is_alpha(char *str);
 char *GetDIrPath(char **path, t_container *src);
-char *get_OLDPWD_dir(void);
+char *get_OLDPWD_dir(t_container *src);
 void _fileNameError(t_container *src, char *fileName);
 #endif/*SIMPLE_SHELL*/

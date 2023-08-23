@@ -112,11 +112,11 @@ void set_env(t_container *src)
 {
 	int len = -1;
 
-	src->env = malloc(sizeof(char *) * (TDPCounter(environ) + 2));
-	while (environ[++len])
+	src->env = malloc(sizeof(char *) * (TDPCounter(src->envarg) + 2));
+	while (src->envarg[++len])
 	{
-		src->env[len] = malloc(_strlen(environ[len]) + 1);
-		_strcpy(src->env[len], environ[len]);
+		src->env[len] = malloc(_strlen(src->envarg[len]) + 1);
+		_strcpy(src->env[len], src->envarg[len]);
 	}
 	src->env[len] = NULL;
 }
