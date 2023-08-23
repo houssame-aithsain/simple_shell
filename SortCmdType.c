@@ -39,7 +39,7 @@ int	__CmdOrBuiltin(t_container *src)
 		waitpid(ps_id, &ex, 0);
 		src->exit_status = (((ex) & 0xff00) >> 8);
 	}
-	else if (!builtins(src) && __filename_input(src, src->path))
+	else if (!builtins(src))
 		_cmd_not_found(src, 0);
 	_free(src->arg, src->path, -1);
 	free(src->cmd_path);
