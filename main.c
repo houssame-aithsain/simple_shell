@@ -102,8 +102,6 @@ int main(int argc, char **argv, char **env)
 			_free(src.env, NULL, 1);
 			return (EXIT_FAILURE);
 		}
-		else
-			return (EXIT_SUCCESS);
 	}
 	while (TRUE)
 	{
