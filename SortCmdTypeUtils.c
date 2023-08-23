@@ -61,11 +61,10 @@ char *get_join_cmd_path(char *token, char *cmd)
  */
 char *check_PATH(t_container *src)
 {
-	char *path, *cmd_path;
+	char *path, **tokens, *cmd_path;
 	struct stat file_info;
 	int c = -1;
 
-	file_info.st_mode = 0;
 	stat(src->path, &file_info);
 	if (_strcmp(src->path, src->arg[0]))
 	{
@@ -88,18 +87,18 @@ char *check_PATH(t_container *src)
 		free(path);
 		return (NULL);
 	}
-	src->tokens = strtow(5 + path, ':');
-	while (src->tokens[++c])
+	tokens = strtow(5 + path, ':');
+	while (tokens[++c])
 	{
-		cmd_path = get_join_cmd_path(src->tokens[c], src->arg[0]);
+		cmd_path = get_join_cmd_path(tokens[c], src->arg[0]);
 		if (!access(cmd_path, F_OK))
 		{
-			_free(src->tokens, path, -1);
+			_free(tokens, path, -1);
 			return (cmd_path);
 		}
 		free(cmd_path);
 	}
-	_free(src->tokens, path, -1);
+	_free(tokens, path, -1);
 	return (NULL);
 }
 

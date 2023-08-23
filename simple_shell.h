@@ -73,14 +73,12 @@ typedef struct alias
  * @op: Operator code for command chaining
  * @is_fd: Flag to indicate if processing a file descriptor
  * @alias: Structure to hold alias information
- * @tokens:......
  */
 typedef struct container
 {
 	char	**splitedLines;
 	char	**and_cmds;
 	char	**mc_arg;
-	char	**tokens;
 	char	**arg;
 	char	**env;
 	char	*cmd_path;

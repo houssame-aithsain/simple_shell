@@ -31,7 +31,6 @@ int	__CmdOrBuiltin(t_container *src)
 {
 	int ps_id, ex;
 
-	src->tokens = NULL;
 	if (!__is_cmd_builtin(src, 0))
 	{
 		ps_id = fork();
