@@ -114,15 +114,7 @@ int __filename_input(char **argv, int fd)
 int main(int argc, char **argv)
 {
 	t_container src;
-	int fd;
 
-	if (argc == 2)
-	{
-		fd = open(argv[1], O_RDONLY);
-		__filename_input(argv, fd);
-		__var_init(&src, argc, argv);
-		__(&src, fd, argv[1]);
-	}
 	__var_init(&src, argc, argv);
 	while (TRUE)
 	{
