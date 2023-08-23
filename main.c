@@ -2,15 +2,34 @@
 
 /**
  * DisplayedPrompt - Display the custom shell prompt
- *
+ * @src: src.
  * Prints the custom shell prompt
  * including the shell name and the prompt symbol.
  * Utilizes ANSI color codes for shell name
  * and prompt symbol coloring.
  */
-void DisplayedPrompt(void)
+void DisplayedPrompt(t_container *src)
 {
-	write(1, "$ ", 2);
+	write(1, ANSI_COLOR_GRAY, _strlen(ANSI_COLOR_GRAY));
+	write(1, "┌─", 7);
+	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
+	write(1, ANSI_COLOR_CYAN, _strlen(ANSI_COLOR_CYAN));
+	write(1, "simple", 7);
+	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
+	write(1, ANSI_COLOR_GRAY, _strlen(ANSI_COLOR_GRAY));
+	write(1, "─", 4);
+	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
+	write(1, ANSI_COLOR_CYAN, _strlen(ANSI_COLOR_CYAN));
+	write(1, "shell", 6);
+	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
+	write(1, ANSI_COLOR_GRAY, _strlen(ANSI_COLOR_GRAY));
+	write(1, "─[", 5);
+	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
+	write(1, ANSI_COLOR_MAGENTA, _strlen(ANSI_COLOR_MAGENTA));
+	write(1, src->PWD, _strlen(src->PWD));
+	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
+	write(1, "]\n╰─$ ", 11);
+	write(1, ANSI_COLOR_RESET, _strlen(ANSI_COLOR_RESET));
 }
 
 /**
@@ -84,7 +103,7 @@ int main(int argc, char **argv)
 		src.mainLine = NULL;
 		src.arg = NULL;
 		if (isatty(STDIN_FILENO))
-			DisplayedPrompt();
+			DisplayedPrompt(&src);
 		src.mainLine = _getline(STDIN_FILENO);
 		if (!src.mainLine)
 		{

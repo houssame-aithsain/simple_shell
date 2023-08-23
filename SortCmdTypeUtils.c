@@ -67,7 +67,9 @@ char *check_PATH(t_container *src)
 
 	if (_strcmp(src->path, src->arg[0]))
 	{
-		if (stat(src->path, &file_info))
+		stat(src->path, &file_info);
+		if (S_ISREG(file_info.st_mode) && !(file_info.st_mode
+			& (S_IXUSR | S_IXGRP | S_IXOTH)))
 			return (NULL);
 		if (!access(src->path, F_OK))
 		{
