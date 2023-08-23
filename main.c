@@ -60,9 +60,7 @@ int __filename_input(t_container *src, char *fileName)
 	}
 	if (fd > 0)
 	{
-		stat(fileName, &file_info);
-		if (S_ISREG(file_info.st_mode)
-			&& !(file_info.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)))
+		if (!stat(fileName, &file_info))
 		{
 			src->arg = NULL;
 			src->fdLine = NULL;
