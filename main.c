@@ -101,7 +101,6 @@ void __filename_input(t_container *src, char *fileName)
  */
 int main(int argc, char **argv)
 {
-	int fd;
 	t_container src;
 
 	__var_init(&src, argc, argv);
