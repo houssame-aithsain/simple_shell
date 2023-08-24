@@ -45,8 +45,6 @@ void DisplayedPrompt(t_container *src)
  */
 int __filename_input(t_container *src, char *fileName)
 {
-	struct stat file_info;
-
 	src->fd = open(fileName, O_RDONLY);
 	if (src->fd < 0)
 	{
@@ -57,22 +55,19 @@ int __filename_input(t_container *src, char *fileName)
 		else
 			return (1);
 	}
-	if (src->fd > 0 && !stat(fileName, &file_info))
+	src->arg = NULL;
+	src->fdLine = NULL;
+	while ((src->fdLine = _getline(src->fd)))
 	{
+		src->is_fd = 1;
 		src->arg = NULL;
-		src->fdLine = NULL;
-		while ((src->fdLine = _getline(src->fd)))
-		{
-			src->is_fd = 1;
-			src->arg = NULL;
-			split_cmd_line(src->fdLine, src);
-			free(src->fdLine);
-		}
-		close(src->fd);
-		__main_free(src, FD);
-		exit(src->exit_status);
+		split_cmd_line(src->fdLine, src);
+		free(src->fdLine);
 	}
-	return (1);
+	close(src->fd);
+	__main_free(src, FD);
+	exit(src->exit_status);
+	return (0);
 }
 
 /**
