@@ -77,7 +77,7 @@ int __filename_input(t_container *src, char *fileName)
 		__main_free(src, FD);
 		exit(src->exit_status);
 	}
-	return (-1);
+	return (0);
 }
 
 /**
