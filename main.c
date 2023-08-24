@@ -73,6 +73,8 @@ int __filename_input(t_container *src, char *fileName)
 		__main_free(src, FD);
 		exit(src->exit_status);
 	}
+	if (fd > 0)
+		close(fd);
 	return (-1);
 }
 
