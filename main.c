@@ -105,8 +105,7 @@ int main(int argc, char **argv, char **env)
 			return (EXIT_FAILURE);
 		}
 		else if (exitt == -1)
-			return(EXIT_SUCCESS);
-		
+			return (EXIT_SUCCESS);
 	}
 	while (TRUE)
 	{
