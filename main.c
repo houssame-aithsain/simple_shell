@@ -91,11 +91,7 @@ int main(int argc, char **argv, char **env)
 	__var_init(&src, argc, argv, env);
 	if (argc == 2)
 	{
-		if (__filename_input(&src, argv[1]))
-		{
-			_free(src.env, NULL, 1);
-			return (EXIT_FAILURE);
-		}
+		__filename_input(&src, argv[1]);
 	}
 	while (TRUE)
 	{
