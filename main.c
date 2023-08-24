@@ -57,8 +57,13 @@ int __filename_input(t_container *src, char *fileName)
 		else
 			return (1);
 	}
-	if (src->fd > 0 && !fstat(src->fd, &file_info))
+	if (src->fd > 0)
 	{
+		if (fstat(src->fd, &file_info))
+		{
+			close(src->fd);
+			return (1);
+		}
 		src->arg = NULL;
 		src->fdLine = NULL;
 		while ((src->fdLine = _getline(src->fd)))
