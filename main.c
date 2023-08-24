@@ -46,15 +46,6 @@ void DisplayedPrompt(t_container *src)
 int __filename_input(t_container *src, char *fileName)
 {
 	src->fd = open(fileName, O_RDONLY);
-	if (src->fd < 0)
-	{
-		if (errno == ENOENT)
-			_fileNameError(src, fileName);
-		else if (errno == EACCES)
-			exit(126);
-		else
-			return (1);
-	}
 	src->arg = NULL;
 	src->fdLine = NULL;
 	while ((src->fdLine = _getline(src->fd)))
