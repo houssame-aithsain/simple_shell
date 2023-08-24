@@ -84,4 +84,6 @@ void __free_all(t_container *src)
 	_free(src->arg, NULL, 1);
 	_free(src->env, NULL, 1);
 	_free(src->and_cmds, NULL, 1);
+	if (src->fd > 0)
+		close(src->fd);
 }

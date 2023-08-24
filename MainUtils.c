@@ -57,6 +57,7 @@ void __var_init(t_container *src, int argc, char **argv,  char **env)
 	char *old;
 
 	(void)argc;
+	src->fd = 0;
 	src->is_fd = 0;
 	src->envarg = env;
 	src->exit_status = 0;

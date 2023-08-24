@@ -46,10 +46,9 @@ void DisplayedPrompt(t_container *src)
 int __filename_input(t_container *src, char *fileName)
 {
 	struct stat file_info;
-	int fd;
 
-	fd = open(fileName, O_RDONLY);
-	if (fd < 0)
+	src->fd = open(fileName, O_RDONLY);
+	if (src->fd < 0)
 	{
 		if (errno == ENOENT)
 			_fileNameError(src, fileName);
@@ -58,23 +57,21 @@ int __filename_input(t_container *src, char *fileName)
 		else
 			return (1);
 	}
-	if (fd > 0 && !fstat(fd, &file_info))
+	if (src->fd > 0 && !fstat(src->fd, &file_info))
 	{
 		src->arg = NULL;
 		src->fdLine = NULL;
-		while ((src->fdLine = _getline(fd)))
+		while ((src->fdLine = _getline(src->fd)))
 		{
 			src->is_fd = 1;
 			src->arg = NULL;
 			split_cmd_line(src->fdLine, src);
 			free(src->fdLine);
 		}
-		close(fd);
+		close(src->fd);
 		__main_free(src, FD);
 		exit(src->exit_status);
 	}
-	if (fd > 0)
-		close(fd);
 	return (-1);
 }
 
@@ -95,19 +92,15 @@ int __filename_input(t_container *src, char *fileName)
 int main(int argc, char **argv, char **env)
 {
 	t_container src;
-	int exitt;
 
 	__var_init(&src, argc, argv, env);
 	if (argc == 2)
 	{
-		exitt = __filename_input(&src, argv[1]);
-		if (exitt == 1)
+		if (__filename_input(&src, argv[1]))
 		{
 			_free(src.env, NULL, 1);
 			return (EXIT_FAILURE);
 		}
-		else if (exitt == -1)
-			return (EXIT_SUCCESS);
 	}
 	while (TRUE)
 	{
@@ -124,4 +117,5 @@ int main(int argc, char **argv, char **env)
 		split_cmd_line(src.mainLine, &src);
 		free(src.mainLine);
 	}
+	return (EXIT_SUCCESS);
 }

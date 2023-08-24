@@ -70,6 +70,7 @@ typedef struct alias
  * @op: Operator code for command chaining
  * @is_fd: Flag to indicate if processing a file descriptor
  * @alias: Structure to hold alias information
+ * @fd: .....
  * @envarg: .......
  */
 typedef struct container
@@ -94,6 +95,7 @@ typedef struct container
 	int		is_empty;
 	int		arg_lent;
 	int		op;
+	int		fd;
 	int		is_fd;
 	t_alias	alias;
 } t_container;
