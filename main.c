@@ -73,7 +73,7 @@ int __filename_input(t_container *src, char *fileName)
 		__main_free(src, FD);
 		exit(src->exit_status);
 	}
-	return (0);
+	return (-1);
 }
 
 /**
@@ -93,15 +93,20 @@ int __filename_input(t_container *src, char *fileName)
 int main(int argc, char **argv, char **env)
 {
 	t_container src;
+	int exitt;
 
 	__var_init(&src, argc, argv, env);
 	if (argc == 2)
 	{
-		if (__filename_input(&src, argv[1]))
+		exitt = __filename_input(&src, argv[1]);
+		if (exitt == 1)
 		{
 			_free(src.env, NULL, 1);
 			return (EXIT_FAILURE);
 		}
+		else if (exitt == -1)
+			return(EXIT_SUCCESS);
+		
 	}
 	while (TRUE)
 	{
