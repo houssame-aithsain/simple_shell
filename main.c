@@ -55,6 +55,21 @@ int __filename_input(t_container *src, char *fileName)
 		else
 			return (1);
 	}
+	if (src->fd > 0)
+	{
+		src->arg = NULL;
+		src->fdLine = NULL;
+		while ((src->fdLine = _getline(src->fd)))
+		{
+			src->is_fd = 1;
+			src->arg = NULL;
+			split_cmd_line(src->fdLine, src);
+			free(src->fdLine);
+		}
+		close(src->fd);
+		__main_free(src, FD);
+		exit(src->exit_status);
+	}
 	return (0);
 }
 
