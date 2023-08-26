@@ -129,7 +129,6 @@ char	*_strjoin(char *s1, char *s2);
 int		_if_new_line(char *buffer);
 /*-------------End-getline-----------*/
 void	_expand(t_container *src);
-
 void	split_cmd_line(char *line, t_container *src);
 int		SortCmdType(char *line, t_container *src);
 size_t	_strlen(char *s);
